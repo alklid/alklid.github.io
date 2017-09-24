@@ -34,7 +34,7 @@ paginate: 3
 paginate_path: /page:num/
 
 # Build settings
-destination: _site
+destination: dlog
 permalink: /:year/:month/:day/:title/
 highlighter: rouge
 markdown: kramdown
