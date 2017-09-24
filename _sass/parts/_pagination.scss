@@ -1,0 +1,21 @@
+.pagination {
+  margin-bottom: 25px;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+  .previous {
+    float: left;
+  }
+  .next {
+    float: right;
+  }
+  .previous, .next {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: $dark-gray;
+    &:hover {
+      opacity: .8;
+      color: $dark-pink;
+    }
+  }
+}

@@ -1,0 +1,164 @@
+---
+# Front matter comment to ensure Jekyll properly reads file.
+---
+
+@import "../_sass/variables";
+@import "../_sass/tools/normalize";
+
+/* = = = = = = = = = = Main Styles = = = = = = = = = = */
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow-x: hidden;
+}
+
+html {
+  line-height: 1.5;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  color: $dark-gray;
+  margin: 0;
+  background-color: $white;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lato', sans-serif;
+  color: $dark-purple;
+  font-weight: 400;
+}
+
+img {
+  height: auto;
+  max-width: 100%;
+}
+
+a {
+  color: $dark-pink;
+}
+
+blockquote {
+  border-left: 3px solid $dark-purple;
+  padding-left: 18px;
+  margin-left: 21px;
+  font-style: italic;
+  color: $dark-purple;
+}
+
+pre {
+  padding: 16px 32px;
+  overflow-x: auto;
+
+  code {
+    border: 0;
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: transform .4s cubic-bezier(0.16, 0.68, 0.43, 0.99);
+}
+
+.flex-container.active {
+  transform: translate3d(300px, 0, 0);
+  &::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    background-color: rgba(0,0,0,0.5);
+  }
+}
+
+.content {
+  flex-grow: 1;
+}
+
+.wrapper {
+  width: 960px;
+  max-width: 90%;
+  margin: 0 auto;
+  position: relative;
+}
+
+::-moz-selection {
+  background: rgba(49, 30, 62, 0.7);
+  color: #ffffff;
+}
+
+::selection {
+  background: rgba(49, 30, 62, 0.7);
+  color: #ffffff;
+}
+
+.clearfix::before, .clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.clearfix::before {
+  clear: both;
+}
+
+/* = = = = = = = = = = Header Styles = = = = = = = = = = */
+@import "../_sass/parts/header";
+
+/* = = = = = = = = = = Search Styles = = = = = = = = = = */
+@import "../_sass/parts/search";
+
+/* = = = = = = = = = = Post-Card Styles = = = = = = = = = = */
+@import "../_sass/parts/post-card";
+
+/* = = = = = = = = = = Pagination Styles = = = = = = = = = = */
+@import "../_sass/parts/pagination";
+
+
+/* = = = = = = = = = = Footer Styles = = = = = = = = = = */
+@import "../_sass/parts/footer";
+
+/* = = = = = = = = = = Post-Page Styles = = = = = = = = = = */
+@import "../_sass/parts/post-page";
+
+/* = = = = = = = = = = Author Box Styles = = = = = = = = = = */
+@import "../_sass/parts/author-box";
+
+/* = = = = = = = = = = About Page Styles = = = = = = = = = = */
+@import "../_sass/parts/about";
+
+/* = = = = = = = = = = Tags Styles = = = = = = = = = = */
+@import "../_sass/parts/tags";
+
+/* = = = = = = = = = = Animate Styles = = = = = = = = = = */
+@import "../_sass/parts/animate";
+
+/* = = = = = = = = = = Media = = = = = = = = = = */
+@import "../_sass/media";
+
+/* = = = = = = = = = = highlight = = = = = = = = = = */
+@import "../_sass/monokai";
+
+/* Modifications */
+pre.highlight,
+.highlight pre {
+  padding: 10px;
+}
+
+pre.highlight code,
+.highlight pre code {
+  white-space: pre-wrap;
+}

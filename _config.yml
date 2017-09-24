@@ -1,0 +1,49 @@
+title: Dlog
+email: alklid@gmail.com
+description: > # this means to ignore newlines until "baseurl:"
+  Development Blog by ChangHa Choi
+permalink: ':title/'
+baseurl: "/dlog" # the subpath of your site, e.g. /blog
+url: "https://alklid.github.com" # the base hostname & protocol for your site, e.g. http://example.com
+
+# Author settings
+author: ChangHa Choi # add your name
+author-pic: alklid_profile.jpeg
+about-author: My name is ChangHa Choi. Thank God for everything.
+
+# Contact links
+email: 'alklid@gmail.com' # Add your Email address
+github: 'alklid' # Add your Github handle
+facebook: 'changhachoi' # Add your Facebook handle
+#phone: # Add your Phone number
+#website: '' # Add your website, do not add http://
+#linkedin: # Add your Linkedin handle
+#twitter: '@artemsheludko_' # Add your Twitter handle
+#instagram: # Add your Instagram handle
+#pinterest: # Add your Pinterest handle
+#mailchimp: # Newsletter, Add your MailChimp form identifier.
+
+# Disqus
+discus_identifier: 'alklid' # Add your discus identifier
+
+# Tracker
+analytics: 'UA-640913-4' # Google Analytics
+
+# Paginate
+paginate: 3
+paginate_path: /page:num/
+
+# Build settings
+destination: _site
+permalink: /:year/:month/:day/:title/
+highlighter: rouge
+markdown: kramdown
+plugins:
+  - jekyll-paginate
+  - jekyll-feed
+  - jekyll-sitemap
+sass:
+    sass_dir: _sass
+
+include: [_pages]
+exclude: ["node_modules", "gulpfile.js", "package.json", "yarn.lock", "myJekyll2.iml", ".idea", ".sass-cache"]
