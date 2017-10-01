@@ -1,5 +1,144 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="https://alklid.github.io/dlog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://alklid.github.io/dlog/" rel="alternate" type="text/html" /><updated>2017-09-24T23:59:20+09:00</updated><id>https://alklid.github.io/dlog/</id><title type="html">Dlog</title><subtitle>Development Blog by ChangHa Choi
-</subtitle><author><name>ChangHa Choi</name></author><entry><title type="html">dlog - jekyll theme</title><link href="https://alklid.github.io/dlog/2017/09/24/dlog-jekyll-theme/" rel="alternate" type="text/html" title="dlog - jekyll theme" /><published>2017-09-24T22:06:14+09:00</published><updated>2017-09-24T22:06:14+09:00</updated><id>https://alklid.github.io/dlog/2017/09/24/dlog-jekyll-theme</id><content type="html" xml:base="https://alklid.github.io/dlog/2017/09/24/dlog-jekyll-theme/">&lt;p&gt;DLOG 첫번째 포스팅은 jekyll blog theme 입니다.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="https://alklid.github.io/dlog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://alklid.github.io/dlog/" rel="alternate" type="text/html" /><updated>2017-10-01T21:17:26+09:00</updated><id>https://alklid.github.io/dlog/</id><title type="html">Dlog</title><subtitle>Development Blog by ChangHa Choi
+</subtitle><author><name>ChangHa Choi</name></author><entry><title type="html">markdown syntax</title><link href="https://alklid.github.io/dlog/2017/10/01/markdown-syntax/" rel="alternate" type="text/html" title="markdown syntax" /><published>2017-10-01T20:58:01+09:00</published><updated>2017-10-01T20:58:01+09:00</updated><id>https://alklid.github.io/dlog/2017/10/01/markdown-syntax</id><content type="html" xml:base="https://alklid.github.io/dlog/2017/10/01/markdown-syntax/">&lt;p&gt;이미 markdown 문법에 대해서는 ‘markdown’ 단어로 검색만 해도 무수히 많이 나옵니다.&lt;br /&gt;
+가장 대표적으로 참고할 수 있는 사이트로는 github에서 제공하는 사이트를 참조하는게 좋겠습니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://guides.github.com/features/mastering-markdown/&quot;&gt;https://guides.github.com/features/mastering-markdown/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://help.github.com/articles/basic-writing-and-formatting-syntax/&quot;&gt;https://help.github.com/articles/basic-writing-and-formatting-syntax/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;markdown 문법을 자주 사용하게 될텐데, 
+매번 찾아보기가 어려운 상황이 많을수도 있어 본 포스팅에서 연습할 겸 사용해봅니다.&lt;br /&gt;
+역시나 익숙해지기 위해서는 자주 써봐야합니다.&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&amp;lt;h{n}&amp;gt; 태그와 같이 헤더를 적용하는 방법입니다. 앞에 #의 갯수를 {n}만큼 적으면 됩니다.&lt;/p&gt;
+  &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# This is an &amp;lt;h1&amp;gt; tag
+## This is an &amp;lt;h2&amp;gt; tag
+###### This is an &amp;lt;h6&amp;gt; tag
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;h1 id=&quot;-this-is-an-h1-tag&quot;&gt;# This is an &amp;lt;h1&amp;gt; tag&lt;/h1&gt;
+  &lt;h2 id=&quot;-this-is-an-h2-tag&quot;&gt;## This is an &amp;lt;h2&amp;gt; tag&lt;/h2&gt;
+  &lt;h6 id=&quot;-this-is-an-h6-tag&quot;&gt;###### This is an &amp;lt;h6&amp;gt; tag&lt;/h6&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;italic 적용은 앞뒤로 [*] 또는 [_]를 붙이면 됩니다.&lt;/p&gt;
+  &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*This text will be italic*  
+_This will also be italic_
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;p&gt;&lt;em&gt;*This text will be italic*&lt;/em&gt;&lt;br /&gt;
+&lt;em&gt;_This will also be italic_&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;bold 적용은 앞뒤로 [*] 또는 [_]를 두번 연속해서 붙이면 됩니다.&lt;/p&gt;
+  &lt;div class=&quot;language-markdown highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gs&quot;&gt;**This text will be italic**&lt;/span&gt;  
+&lt;span class=&quot;gs&quot;&gt;__This will also be italic__&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;p&gt;&lt;strong&gt;**This text will be bold**&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;__This will also be bold__&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;unordered 목록입니다.&lt;/p&gt;
+  &lt;div class=&quot;language-md highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; Item a
+&lt;span class=&quot;p&quot;&gt;    *&lt;/span&gt; Item a-1
+&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; Item b
+&lt;span class=&quot;p&quot;&gt;    *&lt;/span&gt; Item b-1
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Item a
+      &lt;ul&gt;
+        &lt;li&gt;Item a-1&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Item b
+      &lt;ul&gt;
+        &lt;li&gt;Item b-1&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;ordered 목록입니다.&lt;/p&gt;
+  &lt;div class=&quot;language-mkd highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;1.&lt;/span&gt; Item 1
+&lt;span class=&quot;p&quot;&gt;    1.&lt;/span&gt; Item 1-1
+&lt;span class=&quot;p&quot;&gt;1.&lt;/span&gt; Item 2
+&lt;span class=&quot;p&quot;&gt;    1.&lt;/span&gt; Item 2-1
+&lt;span class=&quot;p&quot;&gt;    1.&lt;/span&gt; Item 2-2
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;ol&gt;
+    &lt;li&gt;Item 1
+      &lt;ol&gt;
+        &lt;li&gt;Item 1-1&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Item 2
+      &lt;ol&gt;
+        &lt;li&gt;Item 2-1&lt;/li&gt;
+        &lt;li&gt;Item 2-2&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;문장안에서 코드를 표현하는 inline code를 사용할때에는 앞뒤로 backticks(`)를 붙이면 됩니다.&lt;/p&gt;
+  &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;I think you should use an `&amp;lt;addr&amp;gt;` element here instead.  
+Use `git status` to list all new or modified files that haven't yet been committed.
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;p&gt;I think you should use an &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;addr&amp;gt;&lt;/code&gt; element here instead.&lt;br /&gt;
+Use &lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt; to list all new or modified files that haven’t yet been committed.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;취소선은 앞뒤로 [~]를 두번 연속해서 붙이면 됩니다.&lt;/p&gt;
+  &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~~show me the money~~
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;p&gt;&lt;del&gt;show me the money&lt;/del&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;링크는 [링크걸릴문장](링크주소) 로 표현합니다. 다만 ‘_blank’ target 지정과 같이 새창으로 띄우는 설정은 따로 없습니다.&lt;/p&gt;
+  &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[facebook url](https://fb.com/changhachoi)
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;p&gt;&lt;a href=&quot;https://fb.com/changhachoi&quot;&gt;facebook url&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;code highlight는 두가지 방법이 있습니다.&lt;br /&gt;
+&lt;a href=&quot;https://jekyllrb.com/docs/templates/#code-snippet-highlighting&quot;&gt;jekyll template 문법&lt;/a&gt;의 경우 linenos를 통해 line number 표현까지 가능하며,&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'foo'&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;a href=&quot;https://help.github.com/articles/creating-and-highlighting-code-blocks/&quot;&gt;markdown 문법&lt;/a&gt;의 경우는 line number 표현은 불가능합니다.&lt;/p&gt;
+  &lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'foo'&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/blockquote&gt;
+
+&lt;blockquote&gt;
+
+&lt;/blockquote&gt;</content><author><name>ChangHa Choi</name></author><category term="markdown" /><category term="md" /><summary type="html">이미 markdown 문법에 대해서는 ‘markdown’ 단어로 검색만 해도 무수히 많이 나옵니다. 가장 대표적으로 참고할 수 있는 사이트로는 github에서 제공하는 사이트를 참조하는게 좋겠습니다.</summary></entry><entry><title type="html">dlog - jekyll theme</title><link href="https://alklid.github.io/dlog/2017/09/24/dlog-jekyll-theme/" rel="alternate" type="text/html" title="dlog - jekyll theme" /><published>2017-09-24T22:06:14+09:00</published><updated>2017-09-24T22:06:14+09:00</updated><id>https://alklid.github.io/dlog/2017/09/24/dlog-jekyll-theme</id><content type="html" xml:base="https://alklid.github.io/dlog/2017/09/24/dlog-jekyll-theme/">&lt;p&gt;DLOG 첫번째 포스팅은 jekyll blog theme 입니다.&lt;/p&gt;
 
 &lt;p&gt;brunch에서 언급(&lt;a href=&quot;https://brunch.co.kr/@alklid/12&quot;&gt;https://brunch.co.kr/@alklid/12&lt;/a&gt;)한데로 github pages에 기술블로그를 만들어 보기위해 jekyll을 올렸습니다.&lt;br /&gt;
 github pages에 jekyll을 올리는 방법에 대해서는 워낙 다양한 자료가 이미 있어서 따로 정리하지는 않았습니다.&lt;br /&gt;

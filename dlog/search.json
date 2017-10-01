@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "markdown syntax",
+      "category" : "",
+      "tags"     : "markdown, md",
+      "url"      : "/dlog/2017/10/01/markdown-syntax/",
+      "date"     : "2017-10-01 20:58:01 +0900"
+    } ,
+  
+    {
       "title"    : "dlog - jekyll theme",
       "category" : "",
       "tags"     : "jekyll",
