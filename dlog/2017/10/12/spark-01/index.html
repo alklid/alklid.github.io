@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<title>Spark #01 : 용어 및 개념정리 첫날... - Dlog</title>
+	<meta name="description" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/dlog/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/dlog/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/dlog/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/dlog/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#311e3e">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#311e3e">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#311e3e">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/dlog/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/dlog/css/styles.css">
+
+	<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-640913-4"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)};
+    gtag('js', new Date());
+
+    gtag('config', 'UA-640913-4');
+</script>
+
+</head>
+
+<body>
+  <div class="flex-container">
+  <header class="main-header">
+  <div class="wrapper">
+    <div class="header-flex">
+      <div class="menu-icon-container">
+        <span class="menu-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
+      </div>
+      <nav class="main-nav">
+        <span class="menu-icon-close"><i class="fa fa-times" aria-hidden="true"></i></span>
+
+        <!-- about start -->
+        <div class="small-wrapper">
+          <div class="about-container">
+            <section class="about-header">
+              <div class="author-image-container">
+                <img src="/dlog/assets/img/alklid_profile.jpeg" alt="ChangHa Choi">
+              </div>
+              <p class="subtitle">My name is ChangHa Choi. Thank God for everything.</p>
+            </section>
+            <section class="about-body">
+              <ul class="contact-list">
+                
+                <li class="email"><a href="mailto:alklid@gmail.com"><i class="fa fa-envelope-o"></i></a></li>
+                
+
+                <!--
+                
+                <li class="phone"><a href="tel:044 825 5523"><i class="fa fa-phone" aria-hidden="true"></i></a></li>
+                
+
+                
+                <li class="website"><a href="https://artemsheludko.github.io" target="_blank"><i class="fa fa-globe" aria-hidden="true"></i></a></li>
+                
+
+                
+                <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                
+                -->
+
+                
+                <li class="github"><a href="https://github.com/alklid" target="_blank"><i class="fa fa-github"></i></a></li>
+                
+
+                <!--
+                
+                <li class="twitter"><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                
+                -->
+
+                
+                <li class="facebook"><a href="https://fb.com/changhachoi" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                
+
+                <!--
+                
+                <li class="instagram"><a href="https://instagram.com/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                
+
+                
+                <li class="pinterest"><a href="https://pinterest.com/" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                
+                -->
+
+              </ul>
+            </section> <!-- End About Body-->
+          </div> <!-- End About Container -->
+        </div> <!-- End Small Wrapper -->
+        <!-- about end -->
+
+        <ul>
+          <li><a href="https://github.com/alklid/profile" target="_blank">Profile</a></li>
+          <li><a href="/dlog/">Dlog</a></li>
+          <li><a href="/dlog/tags">Tag</a></li>
+          <!-- <li><a href="/dlog/about">About</a></li> -->
+        </ul>
+      </nav>
+      <p class="logo"><a href="/dlog/">Dlog<span class="sub">.changha</span></a></p>
+      <div class="search-icon-container">
+        <span class="search-icon"><a><i class="fa fa-search" aria-hidden="true"></i></a></span>
+      </div>
+    </div>
+  </div>
+</header> <!-- End Header -->
+
+  <article class="article-page">
+    
+    <div class="page-no-image"></div>
+    
+    <div class="wrapper">
+      <div class="page-content">
+        <div class="header-page">
+          <h1 class="page-title">Spark #01 : 용어 및 개념정리 첫날...</h1>
+          <div class="page-date"><time datetime="2017-10-12 21:47:01 +0900">2017, Oct 12</time></div>
+        </div>
+        <p>Apache Spark 학습중… 모르는 용어도 너무 많고, 이해하기 쉽지 않은 개념들도 많고 관련된 stack도 방대함…</p>
+
+<h1 id="big-data-work-flow">Big Data Work Flow</h1>
+<ol>
+  <li>데이터 수집
+    <ul>
+      <li>Kafka</li>
+      <li>SQOOP</li>
+    </ul>
+  </li>
+  <li>데이터 저장 및 처리
+    <ul>
+      <li>Hadoop
+        <ul>
+          <li>HDFS(Hadoop distributed file system) : Data 보관</li>
+          <li>MapReduce Framework : Data 처리</li>
+          <li>Yarn : Cluster 자원관리</li>
+        </ul>
+      </li>
+      <li>HBase
+        <ul>
+          <li>HDFS를 저장소로 사용하는 column 기반 NoSQL DB</li>
+        </ul>
+      </li>
+      <li>Cassandra</li>
+      <li>Redis
+        <ul>
+          <li>메모리를 이용한 key/value 저장소</li>
+        </ul>
+      </li>
+      <li>Hive</li>
+      <li>Spark
+        <ul>
+          <li>처리결과를 항상 파일시스템에 유지하는 Hadoop과 달리 메모리에 저장하고 관리</li>
+          <li>Hadoop, Hive등과 연동됨</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>데이터 분석 및 시각화
+    <ul>
+      <li>Zeppelin</li>
+      <li>RStudio</li>
+    </ul>
+  </li>
+</ol>
+
+<h1 id="rddresilient-distributed-dataset">RDD(Resilient Distributed Dataset)</h1>
+<ul>
+  <li>내부에 단위 데이터를 포함</li>
+  <li>Read-Only
+    <ul>
+      <li>변형(Transformation)을 하면 기존 RDD가 변형되는것이 아니라, 새로운 변형된 결과의 RDD가 새로 생성된다.</li>
+    </ul>
+  </li>
+  <li>저장될때는 여러 서버에 나누어 저장됨</li>
+  <li>처리될때는 각 서버에 저장된 데이터를 동시에 병렬로 처리할 수 있음
+    <ul>
+      <li>처리하는 과정에서 문제가 발생해도 복구 가능</li>
+    </ul>
+  </li>
+  <li>Partition
+    <ul>
+      <li>하나의 RDD는 여러개의 partition으로 구성되어 있음</li>
+      <li>작업수행시 partition 단위로 병렬처리됨
+        <ul>
+          <li>partition 단위 = 병렬 프로세스의 수</li>
+        </ul>
+      </li>
+      <li>작업이 수행되는 동안 재구성되거나 네트워크를 통해 다른 병렬 서버로 이동(shuffling)될 수 있음, 성능에 영향을 줌.</li>
+    </ul>
+  </li>
+  <li>Transformation
+    <ul>
+      <li>기존 RDD에 변형(Transformation)을 하면 새로운 RDD가 생성된다.
+        <ul>
+          <li>예) 소문자 데이터를 대문자로 바꿔라</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Action
+    <ul>
+      <li>수행의 결과로 RDD가 아닌, 다른 값을 반환하거나 아예 반환하지 않음
+        <ul>
+          <li>예) 데이터의 총합계를 구해라</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="-keypoint">! keypoint</h1>
+<ul>
+  <li>lineage
+    <ul>
+      <li>Read-Only RDD가 Transformation/Actions를 통해 새로운 RDD로 만들어지는 과정이 기록된 계보(lineage)</li>
+      <li>Fault-tolerant
+        <ul>
+          <li>데이터 처리 중간에 fault가 생겨도, 해당 데이터(RDD)가 부모 RDD로부터 어떻게 만들어졌는지 기록되어 있음으로 언제든지 다시 만들어 사용할 수 있다.</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Lazy Execution
+    <ul>
+      <li>Transformation을 통해서는 RDD의 생성 과정을 lineage에 기록만 해둠</li>
+      <li>Action을 통해서 해당 RDD의 생성 과정을 lineage에서 가져와 순서대로 RDD를 생성하고 Action을 수행함
+<img src="https://alklid.github.io/dlog/assets/img/2017-10-12-spark-01_apache-storm-vs-spark-streaming-two-stream-processing-platforms-compared-36-638.jpg" alt="RDD Lineage" /></li>
+    </ul>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code># 효율적인 수행이 되도록 lineage를 잘 설계할줄 알아야 하겠다.
+</code></pre>
+</div>
+
+
+        <div class="page-footer">
+          <div class="page-tag">
+            <span>Tags:</span>
+            
+            <a href="/dlog/tags#spark" class="tag">| spark</a>
+            
+            <a href="/dlog/tags#apache spark" class="tag">| apache spark</a>
+            
+            <a href="/dlog/tags#RDD" class="tag">| RDD</a>
+            
+          </div><!-- End Tags -->
+          <div class="page-share">
+            <span>Share:</span>
+            <a href="https://twitter.com/intent/tweet?text=Spark #01 : 용어 및 개념정리 첫날...&url=https://alklid.github.io/dlog/2017/10/12/spark-01/" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href="https://facebook.com/sharer.php?u=https://alklid.github.io/dlog/2017/10/12/spark-01/" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="https://plus.google.com/share?url=https://alklid.github.io/dlog/2017/10/12/spark-01/" title="Share on Google+" rel="nofollow" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a>
+          </div><!-- End Share -->
+        </div>
+        <section class="author-box">
+  <img src="/dlog/assets/img/alklid_profile.jpeg" alt="ChangHa Choi" class="author-img">
+  <div class="author-desc">
+    <h2>ChangHa Choi</h2>
+    <p>My name is ChangHa Choi. Thank God for everything.</p>
+    <ul>
+      
+        <li class="email"><a href="mailto:alklid@gmail.com"><i class="fa fa-envelope-o"></i></a></li>
+      
+      
+        <li class="github"><a href="https://github.com/alklid" target="_blank"><i class="fa fa-github"></i></a></li>
+      
+      
+        <li class="facebook"><a href="https://fb.com/changhachoi" target="_blank"><i class="fa fa-facebook"></i></a></li>
+      
+      <!--
+      
+        <li class="phone"><a href="tel:044 825 5523"><i class="fa fa-phone" aria-hidden="true"></i></a></li>
+      
+      
+        <li class="website"><a href="https://artemsheludko.github.io" target="_blank"><i class="fa fa-globe" aria-hidden="true"></i></a></li>
+      
+      
+        <li class="twitter"><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+      
+      -->
+    </ul>
+  </div>
+</section>
+
+        <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//alklid.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+      </div>
+    </div> <!-- End Wrapper -->
+  </article>
+  <div class="search-box">
+  <div class="wrapper">
+    <div class="search-grid">
+      <form class="search-form">
+        <div id="search-container">
+          <input type="text" id="search-input" class="search" placeholder="Search">
+        </div>
+      </form>
+      <ul id="results-container" class="results-search"></ul>
+      <div class="icon-close-container">
+        <span class="search-icon-close"><i class="fa fa-times" aria-hidden="true"></i></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <footer class="main-footer">
+  <div class="copyright">
+    <p>2017 &copy; ChangHa Choi</p>
+  </div>
+</footer> <!-- End Footer -->
+
+</div>
+
+  <!-- JS -->
+<script src="/dlog/assets/js/jquery-3.2.1.min.js"></script>
+<script src="/dlog/assets/js/jekyll-search.js"></script>
+<script>
+  SimpleJekyllSearch({
+    searchInput: document.getElementById('search-input'),
+    resultsContainer: document.getElementById('results-container'),
+    json: '/dlog/search.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    fuzzy: false,
+    exclude: ['Welcome']
+  });
+</script>
+<script src="/dlog/assets/js/main.js"></script>
+
+</body>
+</html>
