@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Spark #01 : 용어 및 개념정리 첫날...",
+      "category" : "",
+      "tags"     : "spark, apache spark, RDD",
+      "url"      : "/dlog/2017/10/12/spark-01/",
+      "date"     : "2017-10-12 21:47:01 +0900"
+    } ,
+  
+    {
       "title"    : "markdown syntax",
       "category" : "",
       "tags"     : "markdown, md",
