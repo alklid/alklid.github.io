@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="utf-8">
+	<title>Spark #02 : write to csv file, new line char 문제...해결필요.. - Dlog</title>
+	<meta name="description" content="">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+	<meta property="og:image" content="">
+	<link rel="shortcut icon" href="/dlog/assets/img/favicon/favicon.ico" type="image/x-icon">
+	<link rel="apple-touch-icon" href="/dlog/assets/img/favicon/apple-touch-icon.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/dlog/assets/img/favicon/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/dlog/assets/img/favicon/apple-touch-icon-114x114.png">
+	<!-- Chrome, Firefox OS and Opera -->
+	<meta name="theme-color" content="#311e3e">
+	<!-- Windows Phone -->
+	<meta name="msapplication-navbutton-color" content="#311e3e">
+	<!-- iOS Safari -->
+	<meta name="apple-mobile-web-app-status-bar-style" content="#311e3e">
+	<!-- Google Fonts -->
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+	<!-- Font Awesome -->
+	<link rel="stylesheet" href="/dlog/assets/fonts/font-awesome/css/font-awesome.min.css">
+	<!-- Styles -->
+	<link rel="stylesheet" href="/dlog/css/styles.css">
+
+	<!-- Global Site Tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-640913-4"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)};
+    gtag('js', new Date());
+
+    gtag('config', 'UA-640913-4');
+</script>
+
+</head>
+
+<body>
+  <div class="flex-container">
+  <header class="main-header">
+  <div class="wrapper">
+    <div class="header-flex">
+      <div class="menu-icon-container">
+        <span class="menu-icon"><i class="fa fa-bars" aria-hidden="true"></i></span>
+      </div>
+      <nav class="main-nav">
+        <span class="menu-icon-close"><i class="fa fa-times" aria-hidden="true"></i></span>
+
+        <!-- about start -->
+        <div class="small-wrapper">
+          <div class="about-container">
+            <section class="about-header">
+              <div class="author-image-container">
+                <img src="/dlog/assets/img/alklid_profile.jpegbunde" alt="ChangHa Choi">
+              </div>
+              <p class="subtitle">My name is ChangHa Choi. Thank God for everything.</p>
+            </section>
+            <section class="about-body">
+              <ul class="contact-list">
+                
+                <li class="email"><a href="mailto:alklid@gmail.com"><i class="fa fa-envelope-o"></i></a></li>
+                
+
+                <!--
+                
+                <li class="phone"><a href="tel:044 825 5523"><i class="fa fa-phone" aria-hidden="true"></i></a></li>
+                
+
+                
+                <li class="website"><a href="https://artemsheludko.github.io" target="_blank"><i class="fa fa-globe" aria-hidden="true"></i></a></li>
+                
+
+                
+                <li class="linkedin"><a href="https://in.linkedin.com/" target="_blank"><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
+                
+                -->
+
+                
+                <li class="github"><a href="https://github.com/alklid" target="_blank"><i class="fa fa-github"></i></a></li>
+                
+
+                <!--
+                
+                <li class="twitter"><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+                
+                -->
+
+                
+                <li class="facebook"><a href="https://fb.com/changhachoi" target="_blank"><i class="fa fa-facebook"></i></a></li>
+                
+
+                <!--
+                
+                <li class="instagram"><a href="https://instagram.com/" target="_blank"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+                
+
+                
+                <li class="pinterest"><a href="https://pinterest.com/" target="_blank"><i class="fa fa-pinterest" aria-hidden="true"></i></a></li>
+                
+                -->
+
+              </ul>
+            </section> <!-- End About Body-->
+          </div> <!-- End About Container -->
+        </div> <!-- End Small Wrapper -->
+        <!-- about end -->
+
+        <ul>
+          <li><a href="https://github.com/alklid/profile" target="_blank">Profile</a></li>
+          <li><a href="/dlog/">Dlog</a></li>
+          <li><a href="/dlog/tags">Tag</a></li>
+          <!-- <li><a href="/dlog/about">About</a></li> -->
+        </ul>
+      </nav>
+      <p class="logo"><a href="/dlog/">Dlog<span class="sub">.changha</span></a></p>
+      <div class="search-icon-container">
+        <span class="search-icon"><a><i class="fa fa-search" aria-hidden="true"></i></a></span>
+      </div>
+    </div>
+  </div>
+</header> <!-- End Header -->
+
+  <article class="article-page">
+    
+    <div class="page-no-image"></div>
+    
+    <div class="wrapper">
+      <div class="page-content">
+        <div class="header-page">
+          <h1 class="page-title">Spark #02 : write to csv file, new line char 문제...해결필요..</h1>
+          <div class="page-date"><time datetime="2017-10-30 18:34:01 +0900">2017, Oct 30</time></div>
+        </div>
+        <p>Spark에서 데이터 처리후 CSV파일로 생성할때 new-line char가 환경에 따라 달라지는 문제가 발생했다.<br />
+OS별로 다른건 괜찮은데, windows의 경우 java project에서 생성된것은 new-line char에 일관성이 없다. <br />
+이렇게 생성된 CSV를 load할때 new-line char에 대한 정의에 따라서 load가 안될수 있어 문제가 되었다.</p>
+
+<p>python으로는 해보지 않았지만,
+application에서의 처리가 아닌 spark 설정상으로 일관성있게 생성할 수 있도록 방법이 있으면 좋겠다.</p>
+
+<h1 id="windows">Windows</h1>
+<ol>
+  <li>spark-shell 에서의 CSV생성
+    <ul>
+      <li>생성하는 코드
+        <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">rdd</span> <span class="k">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="o">)</span>
+<span class="n">rdd</span><span class="o">.</span><span class="n">toDF</span><span class="o">.</span><span class="n">coalesce</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="s">"c:\\test"</span><span class="o">)</span>
+</code></pre>
+        </div>
+      </li>
+      <li>생성된 결과
+        <div class="highlighter-rouge"><pre class="highlight"><code>95[CR][LF]
+96[CR][LF]
+97[CR][LF]
+98[CR][LF]
+99[CR][LF]
+100[CR][LF]
+</code></pre>
+        </div>
+      </li>
+      <li>
+        <h3 style="color:red;" id="new-line-char가-모두-cr-lf로-적용된다">new-line char가 모두 <code class="highlighter-rouge">CR</code> <code class="highlighter-rouge">LF</code>로 적용된다.</h3>
+      </li>
+    </ul>
+  </li>
+  <li>java project 에서의 CSV생성
+    <ul>
+      <li>java code
+        <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"## start....."</span><span class="o">);</span>
+<span class="err">　</span>
+<span class="n">String</span> <span class="n">appName</span> <span class="o">=</span> <span class="s">"work1"</span><span class="o">;</span>
+<span class="n">SparkSession</span> <span class="n">spark</span> <span class="o">=</span> <span class="n">sparkContextUtil</span><span class="o">.</span><span class="na">getSparkSession</span><span class="o">(</span><span class="n">appName</span><span class="o">);</span>
+<span class="err">　</span>
+<span class="k">try</span> <span class="o">{</span>
+ <span class="c1">// read</span>
+ <span class="n">Dataset</span><span class="o">&lt;</span><span class="n">Row</span><span class="o">&gt;</span> <span class="n">tmpDS</span> <span class="o">=</span> <span class="n">spark</span><span class="o">.</span><span class="na">read</span><span class="o">()</span>
+                  <span class="o">.</span><span class="na">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">)</span>
+                  <span class="o">.</span><span class="na">option</span><span class="o">(</span><span class="s">"header"</span><span class="o">,</span> <span class="s">"true"</span><span class="o">)</span>
+                  <span class="o">.</span><span class="na">option</span><span class="o">(</span><span class="s">"inferSchema"</span><span class="o">,</span> <span class="s">"true"</span><span class="o">)</span>
+                  <span class="o">.</span><span class="na">option</span><span class="o">(</span><span class="s">"delimiter"</span><span class="o">,</span> <span class="s">","</span><span class="o">)</span>
+                  <span class="o">.</span><span class="na">option</span><span class="o">(</span><span class="s">"mode"</span><span class="o">,</span> <span class="s">"DROPMALFORMED"</span><span class="o">)</span>
+                  <span class="o">.</span><span class="na">load</span><span class="o">(</span><span class="s">"C:\\test\\part-00000-5251acec-1079-4920-8ba0-f4e99e464127-c000.csv"</span><span class="o">);</span>
+<span class="err">　</span>
+ <span class="c1">// write</span>
+ <span class="n">File</span> <span class="n">outputPath</span> <span class="o">=</span> <span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">"C:\\test2"</span><span class="o">);</span>
+ <span class="n">tmpDS</span><span class="o">.</span><span class="na">toDF</span><span class="o">().</span><span class="na">coalesce</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="na">write</span><span class="o">()</span>
+                      <span class="o">.</span><span class="na">mode</span><span class="o">(</span><span class="n">SaveMode</span><span class="o">.</span><span class="na">Overwrite</span><span class="o">)</span>
+                      <span class="o">.</span><span class="na">option</span><span class="o">(</span><span class="s">"header"</span><span class="o">,</span> <span class="s">"true"</span><span class="o">)</span>
+                      <span class="o">.</span><span class="na">option</span><span class="o">(</span><span class="s">"inferSchema"</span><span class="o">,</span> <span class="s">"true"</span><span class="o">)</span>
+                      <span class="o">.</span><span class="na">option</span><span class="o">(</span><span class="s">"delimiter"</span><span class="o">,</span> <span class="s">","</span><span class="o">)</span>
+                      <span class="o">.</span><span class="na">option</span><span class="o">(</span><span class="s">"quote"</span><span class="o">,</span> <span class="s">"\""</span><span class="o">)</span>
+                      <span class="o">.</span><span class="na">csv</span><span class="o">(</span><span class="n">outputPath</span><span class="o">.</span><span class="na">getCanonicalPath</span><span class="o">());</span>
+<span class="err">　</span>
+<span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">Exception</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+ <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+<span class="o">}</span> <span class="k">finally</span> <span class="o">{</span>
+ <span class="n">spark</span><span class="o">.</span><span class="na">stop</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="err">　</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"## end....."</span><span class="o">);</span>
+</code></pre>
+        </div>
+      </li>
+      <li>scala code
+        <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">com.alklid.spark.test</span>
+<span class="err">　</span>      
+<span class="k">import</span> <span class="nn">org.apache.spark.sql.</span><span class="o">{</span><span class="nc">SaveMode</span><span class="o">,</span> <span class="nc">SparkSession</span><span class="o">}</span>
+<span class="err">　</span>
+<span class="k">object</span> <span class="nc">Test</span> <span class="o">{</span>
+ <span class="k">def</span> <span class="n">main</span><span class="o">(</span><span class="n">args</span><span class="k">:</span> <span class="kt">Array</span><span class="o">[</span><span class="kt">String</span><span class="o">])</span> <span class="o">{</span>
+  <span class="nc">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="o">(</span><span class="s">"## start....."</span><span class="o">)</span>
+  <span class="k">val</span> <span class="n">appName</span> <span class="k">=</span> <span class="s">"work1"</span>
+  <span class="k">val</span> <span class="n">spark</span><span class="k">:</span> <span class="kt">SparkSession</span> <span class="o">=</span> <span class="nc">SparkSession</span>
+                                 <span class="o">.</span><span class="n">builder</span><span class="o">()</span>
+                                 <span class="o">.</span><span class="n">appName</span><span class="o">(</span><span class="n">appName</span><span class="o">)</span>
+                                 <span class="o">.</span><span class="n">config</span><span class="o">(</span><span class="s">"spark.master"</span><span class="o">,</span> <span class="s">"local[*]"</span><span class="o">)</span>
+                                 <span class="o">.</span><span class="n">getOrCreate</span><span class="o">()</span>
+<span class="err">　</span>
+  <span class="k">try</span> <span class="o">{</span>
+      <span class="k">val</span> <span class="n">tmpDS</span> <span class="k">=</span> <span class="n">spark</span>
+                 <span class="o">.</span><span class="n">read</span>
+                 <span class="o">.</span><span class="n">format</span><span class="o">(</span><span class="s">"csv"</span><span class="o">)</span>
+                 <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">"header"</span><span class="o">,</span> <span class="s">"true"</span><span class="o">)</span>
+                 <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">"inferSchema"</span><span class="o">,</span> <span class="s">"true"</span><span class="o">)</span>
+                 <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">"delimiter"</span><span class="o">,</span> <span class="s">","</span><span class="o">)</span>
+                 <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">"mode"</span><span class="o">,</span> <span class="s">"DROPMALFORMED"</span><span class="o">)</span>
+                 <span class="o">.</span><span class="n">load</span><span class="o">(</span><span class="s">"C:\\test\\part-00000-c18d0a89-7955-410b-b80d-707cecfa2d00-c000.csv"</span><span class="o">)</span>
+ <span class="err">　</span>
+      <span class="n">tmpDS</span>
+         <span class="o">.</span><span class="n">toDF</span>
+         <span class="o">.</span><span class="n">write</span>
+         <span class="o">.</span><span class="n">mode</span><span class="o">(</span><span class="nc">SaveMode</span><span class="o">.</span><span class="nc">Overwrite</span><span class="o">)</span>
+         <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">"header"</span><span class="o">,</span> <span class="s">"true"</span><span class="o">)</span>
+         <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">"inferSchema"</span><span class="o">,</span> <span class="s">"true"</span><span class="o">)</span>
+         <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">"delimiter"</span><span class="o">,</span> <span class="s">","</span><span class="o">)</span>
+         <span class="o">.</span><span class="n">option</span><span class="o">(</span><span class="s">"quote"</span><span class="o">,</span> <span class="s">"\""</span><span class="o">)</span>
+         <span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="s">"C:\\test2"</span><span class="o">)</span>
+  <span class="o">}</span> <span class="k">catch</span> <span class="o">{</span>
+      <span class="k">case</span> <span class="n">e</span><span class="k">:</span> <span class="kt">Exception</span> <span class="o">=&gt;</span> <span class="n">e</span><span class="o">.</span><span class="n">printStackTrace</span><span class="o">()</span>
+  <span class="o">}</span> <span class="k">finally</span> <span class="n">spark</span><span class="o">.</span><span class="n">stop</span><span class="o">()</span>
+<span class="err">　</span>
+  <span class="nc">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="o">(</span><span class="s">"## end....."</span><span class="o">)</span>
+ <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+        </div>
+      </li>
+      <li>생성된 결과
+        <div class="highlighter-rouge"><pre class="highlight"><code>47[CR][LF]
+48[CR][LF]
+49[CR][LF]
+50[LF] --- partition01
+51[CR][LF]
+...생략...
+97[CR][LF]
+98[CR][LF]
+99[CR][LF]
+100[LF] --- partition02
+</code></pre>
+        </div>
+      </li>
+      <li>
+        <h3 style="color:red;" id="new-line-char가-cr-lf로-적용되다가-partition에서-생성되는-파일의-마지막라인에서는-lf가-적용된다">new-line char가 <code class="highlighter-rouge">CR</code> <code class="highlighter-rouge">LF</code>로 적용되다가, partition에서 생성되는 파일의 마지막라인에서는 <code class="highlighter-rouge">LF</code>가 적용된다.</h3>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h1 id="linux---centos-7">Linux - CentOS 7</h1>
+<ol>
+  <li>spark-shell 에서의 CSV생성
+    <ul>
+      <li>생성하는 코드
+        <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">rdd</span> <span class="k">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="o">)</span>
+<span class="n">rdd</span><span class="o">.</span><span class="n">toDF</span><span class="o">.</span><span class="n">coalesce</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="s">"/home/sparkTest/test"</span><span class="o">)</span>
+</code></pre>
+        </div>
+      </li>
+      <li>생성된 결과
+        <div class="highlighter-rouge"><pre class="highlight"><code>95[LF]
+96[LF]
+97[LF]
+98[LF]
+99[LF]
+100[LF]
+</code></pre>
+        </div>
+      </li>
+      <li>
+        <h3 style="color:red;" id="new-line-char가-모두-lf로-적용된다">new-line char가 모두 <code class="highlighter-rouge">LF</code>로 적용된다.</h3>
+      </li>
+    </ul>
+  </li>
+  <li>java project 에서의 CSV생성
+    <ul>
+      <li>java code : 위의 소스를 동일하게 linux에서 실행했다.</li>
+      <li>생성된 결과
+        <div class="highlighter-rouge"><pre class="highlight"><code>95[LF]
+96[LF]
+97[LF]
+98[LF]
+99[LF]
+100[LF]
+</code></pre>
+        </div>
+      </li>
+      <li>
+        <h3 style="color:red;" id="new-line-char가-모두-lf로-적용된다-1">new-line char가 모두 <code class="highlighter-rouge">LF</code>로 적용된다.</h3>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<h1 id="-keypoint">! keypoint</h1>
+<p>spark-shell에서는 new-line char가 동일한데, java application의 경우 OS에 따라 new-line char가 상이하다.</p>
+
+        <div class="page-footer">
+          <div class="page-tag">
+            <span>Tags:</span>
+            
+            <a href="/dlog/tags#spark" class="tag">| spark</a>
+            
+            <a href="/dlog/tags#apache spark" class="tag">| apache spark</a>
+            
+          </div><!-- End Tags -->
+          <div class="page-share">
+            <span>Share:</span>
+            <a href="https://twitter.com/intent/tweet?text=Spark #02 : write to csv file, new line char 문제...해결필요..&url=https://alklid.github.io/dlog/2017/10/30/spark-02/index.html" title="Share on Twitter" rel="nofollow" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a>
+            <a href="https://facebook.com/sharer.php?u=https://alklid.github.io/dlog/2017/10/30/spark-02/index.html" title="Share on Facebook" rel="nofollow" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+            <a href="https://plus.google.com/share?url=https://alklid.github.io/dlog/2017/10/30/spark-02/index.html" title="Share on Google+" rel="nofollow" target="_blank"><i class="fa fa-google" aria-hidden="true"></i></a>
+          </div><!-- End Share -->
+        </div>
+        <section class="author-box">
+  <img src="/dlog/assets/img/alklid_profile.jpegbunde" alt="ChangHa Choi" class="author-img">
+  <div class="author-desc">
+    <h2>ChangHa Choi</h2>
+    <p>My name is ChangHa Choi. Thank God for everything.</p>
+    <ul>
+      
+        <li class="email"><a href="mailto:alklid@gmail.com"><i class="fa fa-envelope-o"></i></a></li>
+      
+      
+        <li class="github"><a href="https://github.com/alklid" target="_blank"><i class="fa fa-github"></i></a></li>
+      
+      
+        <li class="facebook"><a href="https://fb.com/changhachoi" target="_blank"><i class="fa fa-facebook"></i></a></li>
+      
+      <!--
+      
+        <li class="phone"><a href="tel:044 825 5523"><i class="fa fa-phone" aria-hidden="true"></i></a></li>
+      
+      
+        <li class="website"><a href="https://artemsheludko.github.io" target="_blank"><i class="fa fa-globe" aria-hidden="true"></i></a></li>
+      
+      
+        <li class="twitter"><a href="https://twitter.com/artemsheludko_" target="_blank"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+      
+      -->
+    </ul>
+  </div>
+</section>
+
+        <section class="comment-area">
+  <div class="comment-wrapper">
+    
+    <div id="disqus_thread" class="article-comments"></div>
+    <script>
+      (function() {
+          var d = document, s = d.createElement('script');
+          s.src = '//alklid.disqus.com/embed.js';
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+      })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    
+  </div>
+</section> <!-- End Comment Area -->
+
+      </div>
+    </div> <!-- End Wrapper -->
+  </article>
+  <div class="search-box">
+  <div class="wrapper">
+    <div class="search-grid">
+      <form class="search-form">
+        <div id="search-container">
+          <input type="text" id="search-input" class="search" placeholder="Search">
+        </div>
+      </form>
+      <ul id="results-container" class="results-search"></ul>
+      <div class="icon-close-container">
+        <span class="search-icon-close"><i class="fa fa-times" aria-hidden="true"></i></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <footer class="main-footer">
+  <div class="copyright">
+    <p>2017 &copy; ChangHa Choi</p>
+  </div>
+</footer> <!-- End Footer -->
+
+</div>
+
+  <!-- JS -->
+<script src="/dlog/assets/js/jquery-3.2.1.min.js"></script>
+<script src="/dlog/assets/js/jekyll-search.js"></script>
+<script>
+  SimpleJekyllSearch({
+    searchInput: document.getElementById('search-input'),
+    resultsContainer: document.getElementById('results-container'),
+    json: '/dlog/search.json',
+    searchResultTemplate: '<li><a href="{url}" title="{desc}">{title}</a></li>',
+    noResultsText: 'No results found',
+    fuzzy: false,
+    exclude: ['Welcome']
+  });
+</script>
+<script src="/dlog/assets/js/main.js"></script>
+
+</body>
+</html>

@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Spark #02 : write to csv file, new line char 문제...해결필요..",
+      "category" : "",
+      "tags"     : "spark, apache spark",
+      "url"      : "/dlog/2017/10/30/spark-02/",
+      "date"     : "2017-10-30 18:34:01 +0900"
+    } ,
+  
+    {
       "title"    : "Spark #01 : 용어 및 개념정리 첫날...",
       "category" : "",
       "tags"     : "spark, apache spark, RDD",
