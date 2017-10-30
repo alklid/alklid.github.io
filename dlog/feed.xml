@@ -1,112 +1,120 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="https://alklid.github.io/dlog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://alklid.github.io/dlog/" rel="alternate" type="text/html" /><updated>2017-10-30T20:44:18+09:00</updated><id>https://alklid.github.io/dlog/</id><title type="html">Dlog</title><subtitle>Development Blog by ChangHa Choi
-</subtitle><author><name>ChangHa Choi</name></author><entry><title type="html">Spark #02 : write to csv file, new line char 문제…해결필요..</title><link href="https://alklid.github.io/dlog/2017/10/30/spark-02/" rel="alternate" type="text/html" title="Spark #02 : write to csv file, new line char 문제...해결필요.." /><published>2017-10-30T18:34:01+09:00</published><updated>2017-10-30T18:34:01+09:00</updated><id>https://alklid.github.io/dlog/2017/10/30/spark-02</id><content type="html" xml:base="https://alklid.github.io/dlog/2017/10/30/spark-02/">Spark에서 데이터 처리후 CSV파일로 생성할때 new-line char가 환경에 따라 달라지는 문제가 발생했다.  
-OS별로 다른건 괜찮은데, windows의 경우 java project에서 생성된것은 new-line char에 일관성이 없다.   
-이렇게 생성된 CSV를 load할때 new-line char에 대한 정의에 따라서 load가 안될수 있어 문제가 되었다.  
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.5.2">Jekyll</generator><link href="https://alklid.github.io/dlog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://alklid.github.io/dlog/" rel="alternate" type="text/html" /><updated>2017-10-30T20:48:06+09:00</updated><id>https://alklid.github.io/dlog/</id><title type="html">Dlog</title><subtitle>Development Blog by ChangHa Choi
+</subtitle><author><name>ChangHa Choi</name></author><entry><title type="html">Spark #02 : write to csv file, new line char 문제…해결필요..</title><link href="https://alklid.github.io/dlog/2017/10/30/spark-02/" rel="alternate" type="text/html" title="Spark #02 : write to csv file, new line char 문제...해결필요.." /><published>2017-10-30T18:34:01+09:00</published><updated>2017-10-30T18:34:01+09:00</updated><id>https://alklid.github.io/dlog/2017/10/30/spark-02</id><content type="html" xml:base="https://alklid.github.io/dlog/2017/10/30/spark-02/">&lt;p&gt;Spark에서 데이터 처리후 CSV파일로 생성할때 new-line char가 환경에 따라 달라지는 문제가 발생했다.&lt;br /&gt;
+OS별로 다른건 괜찮은데, windows의 경우 java project에서 생성된것은 new-line char에 일관성이 없다. &lt;br /&gt;
+이렇게 생성된 CSV를 load할때 new-line char에 대한 정의에 따라서 load가 안될수 있어 문제가 되었다.&lt;/p&gt;
 
-python으로는 해보지 않았지만,
-application에서의 처리가 아닌 spark 설정상으로 일관성있게 생성할 수 있도록 방법이 있으면 좋겠다.
+&lt;p&gt;python으로는 해보지 않았지만,
+application에서의 처리가 아닌 spark 설정상으로 일관성있게 생성할 수 있도록 방법이 있으면 좋겠다.&lt;/p&gt;
 
-
-# Windows
-1. spark-shell 에서의 CSV생성
-    * 생성하는 코드
-```scala
-val rdd = sc.parallelize(1 to 100)
-rdd.toDF.coalesce(1).write.csv(&quot;c:\\test&quot;)
-```
-    * 생성된 결과
-```
-95[CR][LF]
+&lt;h1 id=&quot;windows&quot;&gt;Windows&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;spark-shell 에서의 CSV생성
+    &lt;ul&gt;
+      &lt;li&gt;생성하는 코드
+        &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdd&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parallelize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;rdd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coalesce&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;csv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;c:\\test&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;생성된 결과
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;95[CR][LF]
 96[CR][LF]
 97[CR][LF]
 98[CR][LF]
 99[CR][LF]
 100[CR][LF]
-```
-    * ### new-line char가 모두 `CR` `LF`로 적용된다.
-        {: style=&quot;color:red;&quot;}
-1. java project 에서의 CSV생성
-    * java code
-```java
-System.out.println(&quot;## start.....&quot;);
-　
-String appName = &quot;work1&quot;;
-SparkSession spark = sparkContextUtil.getSparkSession(appName);
-　
-try {
-    // read
-    Dataset&lt;Row&gt; tmpDS = spark.read()
-                        .format(&quot;csv&quot;)
-                        .option(&quot;header&quot;, &quot;true&quot;)
-                        .option(&quot;inferSchema&quot;, &quot;true&quot;)
-                        .option(&quot;delimiter&quot;, &quot;,&quot;)
-                        .option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;)
-                        .load(&quot;C:\\test\\part-00000-5251acec-1079-4920-8ba0-f4e99e464127-c000.csv&quot;);
-　
-    // write
-    File outputPath = new File(&quot;C:\\test2&quot;);
-    tmpDS.toDF().coalesce(1).write()
-                            .mode(SaveMode.Overwrite)
-                            .option(&quot;header&quot;, &quot;true&quot;)
-                            .option(&quot;inferSchema&quot;, &quot;true&quot;)
-                            .option(&quot;delimiter&quot;, &quot;,&quot;)
-                            .option(&quot;quote&quot;, &quot;\&quot;&quot;)
-                            .csv(outputPath.getCanonicalPath());
-　
-} catch (Exception e) {
-    e.printStackTrace();
-} finally {
-    spark.stop();
-}
-　
-System.out.println(&quot;## end.....&quot;);
-```
-    * scala code  
-```scala
-package com.alklid.spark.test
-　      
-import org.apache.spark.sql.{SaveMode, SparkSession}
-　
-object Test {
-    def main(args: Array[String]) {
-        System.out.println(&quot;## start.....&quot;)
-        val appName = &quot;work1&quot;
-        val spark: SparkSession = SparkSession
-                                       .builder()
-                                       .appName(appName)
-                                       .config(&quot;spark.master&quot;, &quot;local[*]&quot;)
-                                       .getOrCreate()
-　
-        try {
-            val tmpDS = spark
-                       .read
-                       .format(&quot;csv&quot;)
-                       .option(&quot;header&quot;, &quot;true&quot;)
-                       .option(&quot;inferSchema&quot;, &quot;true&quot;)
-                       .option(&quot;delimiter&quot;, &quot;,&quot;)
-                       .option(&quot;mode&quot;, &quot;DROPMALFORMED&quot;)
-                       .load(&quot;C:\\test\\part-00000-c18d0a89-7955-410b-b80d-707cecfa2d00-c000.csv&quot;)
- 　
-            tmpDS
-               .toDF
-               .write
-               .mode(SaveMode.Overwrite)
-               .option(&quot;header&quot;, &quot;true&quot;)
-               .option(&quot;inferSchema&quot;, &quot;true&quot;)
-               .option(&quot;delimiter&quot;, &quot;,&quot;)
-               .option(&quot;quote&quot;, &quot;\&quot;&quot;)
-               .csv(&quot;C:\\test2&quot;)
-        } catch {
-            case e: Exception =&gt; e.printStackTrace()
-        } finally spark.stop()
-　
-        System.out.println(&quot;## end.....&quot;)
-    }
-}
-```
-    * 생성된 결과
-```
-47[CR][LF]
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;h3 style=&quot;color:red;&quot; id=&quot;new-line-char가-모두-cr-lf로-적용된다&quot;&gt;new-line char가 모두 &lt;code class=&quot;highlighter-rouge&quot;&gt;CR&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;LF&lt;/code&gt;로 적용된다.&lt;/h3&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;java project 에서의 CSV생성
+    &lt;ul&gt;
+      &lt;li&gt;java code
+        &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;## start.....&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;　&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;appName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;work1&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;SparkSession&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sparkContextUtil&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getSparkSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;appName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;　&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;c1&quot;&gt;// read&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;Dataset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Row&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tmpDS&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;read&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+                  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;csv&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;header&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;inferSchema&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;delimiter&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;,&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mode&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;DROPMALFORMED&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;C:\\test\\part-00000-5251acec-1079-4920-8ba0-f4e99e464127-c000.csv&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;　&lt;/span&gt;
+ &lt;span class=&quot;c1&quot;&gt;// write&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;outputPath&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;File&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;C:\\test2&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;tmpDS&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;coalesce&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+                      &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SaveMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Overwrite&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                      &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;header&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                      &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;inferSchema&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                      &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;delimiter&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;,&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                      &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;quote&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;\&quot;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                      &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;csv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;outputPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getCanonicalPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;());&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;　&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;stop&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;　&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;## end.....&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;);&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;scala code
+        &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;package&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;com.alklid.spark.test&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;　&lt;/span&gt;      
+&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;org.apache.spark.sql.&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;SaveMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SparkSession&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;　&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;object&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Test&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+ &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;])&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;## start.....&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;appName&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;work1&quot;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SparkSession&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;SparkSession&lt;/span&gt;
+                                 &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;builder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+                                 &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;appName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;appName&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                                 &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;config&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;spark.master&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;local[*]&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                                 &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;getOrCreate&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;　&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;tmpDS&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;
+                 &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;read&lt;/span&gt;
+                 &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;format&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;csv&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                 &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;header&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                 &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;inferSchema&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                 &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;delimiter&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;,&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                 &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;mode&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;DROPMALFORMED&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+                 &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;load&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;C:\\test\\part-00000-c18d0a89-7955-410b-b80d-707cecfa2d00-c000.csv&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;err&quot;&gt;　&lt;/span&gt;
+      &lt;span class=&quot;n&quot;&gt;tmpDS&lt;/span&gt;
+         &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;
+         &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;
+         &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;SaveMode&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Overwrite&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+         &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;header&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+         &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;inferSchema&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;true&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+         &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;delimiter&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;,&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+         &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;option&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;quote&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;\&quot;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+         &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;csv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;C:\\test2&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;k&quot;&gt;case&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Exception&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;e&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;printStackTrace&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;finally&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;spark&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;stop&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
+&lt;span class=&quot;err&quot;&gt;　&lt;/span&gt;
+  &lt;span class=&quot;nc&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;println&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;## end.....&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+ &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;생성된 결과
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;47[CR][LF]
 48[CR][LF]
 49[CR][LF]
 50[LF] --- partition01
@@ -116,239 +124,368 @@ object Test {
 98[CR][LF]
 99[CR][LF]
 100[LF] --- partition02
-```
-    * ### new-line char가 `CR` `LF`로 적용되다가, partition에서 생성되는 파일의 마지막라인에서는 `LF`가 적용된다.
-        {: style=&quot;color:red;&quot;}
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;h3 style=&quot;color:red;&quot; id=&quot;new-line-char가-cr-lf로-적용되다가-partition에서-생성되는-파일의-마지막라인에서는-lf가-적용된다&quot;&gt;new-line char가 &lt;code class=&quot;highlighter-rouge&quot;&gt;CR&lt;/code&gt; &lt;code class=&quot;highlighter-rouge&quot;&gt;LF&lt;/code&gt;로 적용되다가, partition에서 생성되는 파일의 마지막라인에서는 &lt;code class=&quot;highlighter-rouge&quot;&gt;LF&lt;/code&gt;가 적용된다.&lt;/h3&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
 
-   
-   
-# Linux - CentOS 7
-1. spark-shell 에서의 CSV생성
-    * 생성하는 코드
-```scala
-val rdd = sc.parallelize(1 to 100)
-rdd.toDF.coalesce(1).write.csv(&quot;/home/sparkTest/test&quot;)
-```
-    * 생성된 결과
-```
-95[LF]
+&lt;h1 id=&quot;linux---centos-7&quot;&gt;Linux - CentOS 7&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;spark-shell 에서의 CSV생성
+    &lt;ul&gt;
+      &lt;li&gt;생성하는 코드
+        &lt;div class=&quot;language-scala highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;val&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rdd&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parallelize&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;to&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;100&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;rdd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;toDF&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;coalesce&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;write&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;csv&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;/home/sparkTest/test&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;생성된 결과
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;95[LF]
 96[LF]
 97[LF]
 98[LF]
 99[LF]
 100[LF]
-```
-    * ### new-line char가 모두 `LF`로 적용된다.
-        {: style=&quot;color:red;&quot;}
-1. java project 에서의 CSV생성
-    * java code : 위의 소스를 동일하게 linux에서 실행했다.
-    * 생성된 결과
-```
-95[LF]
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;h3 style=&quot;color:red;&quot; id=&quot;new-line-char가-모두-lf로-적용된다&quot;&gt;new-line char가 모두 &lt;code class=&quot;highlighter-rouge&quot;&gt;LF&lt;/code&gt;로 적용된다.&lt;/h3&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;java project 에서의 CSV생성
+    &lt;ul&gt;
+      &lt;li&gt;java code : 위의 소스를 동일하게 linux에서 실행했다.&lt;/li&gt;
+      &lt;li&gt;생성된 결과
+        &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;95[LF]
 96[LF]
 97[LF]
 98[LF]
 99[LF]
 100[LF]
-```
-    * ### new-line char가 모두 `LF`로 적용된다.
-        {: style=&quot;color:red;&quot;}
+&lt;/code&gt;&lt;/pre&gt;
+        &lt;/div&gt;
+      &lt;/li&gt;
+      &lt;li&gt;
+        &lt;h3 style=&quot;color:red;&quot; id=&quot;new-line-char가-모두-lf로-적용된다-1&quot;&gt;new-line char가 모두 &lt;code class=&quot;highlighter-rouge&quot;&gt;LF&lt;/code&gt;로 적용된다.&lt;/h3&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
 
-# ! keypoint
-spark-shell에서는 new-line char가 동일한데, java application의 경우 OS에 따라 new-line char가 상이하다.</content><author><name>ChangHa Choi</name></author><category term="spark" /><category term="apache spark" /><summary type="html">Spark에서 데이터 처리후 CSV파일로 생성할때 new-line char가 환경에 따라 달라지는 문제가 발생했다. OS별로 다른건 괜찮은데, windows의 경우 java project에서 생성된것은 new-line char에 일관성이 없다. 이렇게 생성된 CSV를 load할때 new-line char에 대한 정의에 따라서 load가 안될수 있어 문제가 되었다.</summary></entry><entry><title type="html">Spark #01 : 용어 및 개념정리 첫날…</title><link href="https://alklid.github.io/dlog/2017/10/12/spark-01/" rel="alternate" type="text/html" title="Spark #01 : 용어 및 개념정리 첫날..." /><published>2017-10-12T21:47:01+09:00</published><updated>2017-10-12T21:47:01+09:00</updated><id>https://alklid.github.io/dlog/2017/10/12/spark-01</id><content type="html" xml:base="https://alklid.github.io/dlog/2017/10/12/spark-01/">Apache Spark 학습중... 모르는 용어도 너무 많고, 이해하기 쉽지 않은 개념들도 많고 관련된 stack도 방대함... 
+&lt;h1 id=&quot;-keypoint&quot;&gt;! keypoint&lt;/h1&gt;
+&lt;p&gt;spark-shell에서는 new-line char가 동일한데, java application의 경우 OS에 따라 new-line char가 상이하다.&lt;/p&gt;</content><author><name>ChangHa Choi</name></author><category term="spark" /><category term="apache spark" /><summary type="html">Spark에서 데이터 처리후 CSV파일로 생성할때 new-line char가 환경에 따라 달라지는 문제가 발생했다. OS별로 다른건 괜찮은데, windows의 경우 java project에서 생성된것은 new-line char에 일관성이 없다. 이렇게 생성된 CSV를 load할때 new-line char에 대한 정의에 따라서 load가 안될수 있어 문제가 되었다.</summary></entry><entry><title type="html">Spark #01 : 용어 및 개념정리 첫날…</title><link href="https://alklid.github.io/dlog/2017/10/12/spark-01/" rel="alternate" type="text/html" title="Spark #01 : 용어 및 개념정리 첫날..." /><published>2017-10-12T21:47:01+09:00</published><updated>2017-10-12T21:47:01+09:00</updated><id>https://alklid.github.io/dlog/2017/10/12/spark-01</id><content type="html" xml:base="https://alklid.github.io/dlog/2017/10/12/spark-01/">&lt;p&gt;Apache Spark 학습중… 모르는 용어도 너무 많고, 이해하기 쉽지 않은 개념들도 많고 관련된 stack도 방대함…&lt;/p&gt;
 
-# Big Data Work Flow
-1. 데이터 수집
-    * Kafka
-    * SQOOP
-1. 데이터 저장 및 처리
-    * Hadoop
-        * HDFS(Hadoop distributed file system) : Data 보관
-        * MapReduce Framework : Data 처리
-        * Yarn : Cluster 자원관리
-    * HBase
-        * HDFS를 저장소로 사용하는 column 기반 NoSQL DB
-    * Cassandra
-    * Redis
-        * 메모리를 이용한 key/value 저장소
-    * Hive
-    * Spark
-        * 처리결과를 항상 파일시스템에 유지하는 Hadoop과 달리 메모리에 저장하고 관리
-        * Hadoop, Hive등과 연동됨
-1. 데이터 분석 및 시각화
-    * Zeppelin
-    * RStudio
-   
-   
-# RDD(Resilient Distributed Dataset)
-* 내부에 단위 데이터를 포함
-* Read-Only
-    * 변형(Transformation)을 하면 기존 RDD가 변형되는것이 아니라, 새로운 변형된 결과의 RDD가 새로 생성된다.
-* 저장될때는 여러 서버에 나누어 저장됨
-* 처리될때는 각 서버에 저장된 데이터를 동시에 병렬로 처리할 수 있음
-    * 처리하는 과정에서 문제가 발생해도 복구 가능
-* Partition
-    * 하나의 RDD는 여러개의 partition으로 구성되어 있음
-    * 작업수행시 partition 단위로 병렬처리됨
-        * partition 단위 = 병렬 프로세스의 수
-    * 작업이 수행되는 동안 재구성되거나 네트워크를 통해 다른 병렬 서버로 이동(shuffling)될 수 있음, 성능에 영향을 줌.
-* Transformation
-    * 기존 RDD에 변형(Transformation)을 하면 새로운 RDD가 생성된다.
-        * 예) 소문자 데이터를 대문자로 바꿔라
-* Action
-    * 수행의 결과로 RDD가 아닌, 다른 값을 반환하거나 아예 반환하지 않음
-        * 예) 데이터의 총합계를 구해라
-        
-        
-# ! keypoint
-* lineage
-    * Read-Only RDD가 Transformation/Actions를 통해 새로운 RDD로 만들어지는 과정이 기록된 계보(lineage)
-    * Fault-tolerant
-        * 데이터 처리 중간에 fault가 생겨도, 해당 데이터(RDD)가 부모 RDD로부터 어떻게 만들어졌는지 기록되어 있음으로 언제든지 다시 만들어 사용할 수 있다.
-* Lazy Execution
-    * Transformation을 통해서는 RDD의 생성 과정을 lineage에 기록만 해둠
-    * Action을 통해서 해당 RDD의 생성 과정을 lineage에서 가져와 순서대로 RDD를 생성하고 Action을 수행함
-![RDD Lineage](https://alklid.github.io/dlog/assets/img/2017-10-12-spark-01_apache-storm-vs-spark-streaming-two-stream-processing-platforms-compared-36-638.jpg)
+&lt;h1 id=&quot;big-data-work-flow&quot;&gt;Big Data Work Flow&lt;/h1&gt;
+&lt;ol&gt;
+  &lt;li&gt;데이터 수집
+    &lt;ul&gt;
+      &lt;li&gt;Kafka&lt;/li&gt;
+      &lt;li&gt;SQOOP&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;데이터 저장 및 처리
+    &lt;ul&gt;
+      &lt;li&gt;Hadoop
+        &lt;ul&gt;
+          &lt;li&gt;HDFS(Hadoop distributed file system) : Data 보관&lt;/li&gt;
+          &lt;li&gt;MapReduce Framework : Data 처리&lt;/li&gt;
+          &lt;li&gt;Yarn : Cluster 자원관리&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;HBase
+        &lt;ul&gt;
+          &lt;li&gt;HDFS를 저장소로 사용하는 column 기반 NoSQL DB&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Cassandra&lt;/li&gt;
+      &lt;li&gt;Redis
+        &lt;ul&gt;
+          &lt;li&gt;메모리를 이용한 key/value 저장소&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;Hive&lt;/li&gt;
+      &lt;li&gt;Spark
+        &lt;ul&gt;
+          &lt;li&gt;처리결과를 항상 파일시스템에 유지하는 Hadoop과 달리 메모리에 저장하고 관리&lt;/li&gt;
+          &lt;li&gt;Hadoop, Hive등과 연동됨&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;데이터 분석 및 시각화
+    &lt;ul&gt;
+      &lt;li&gt;Zeppelin&lt;/li&gt;
+      &lt;li&gt;RStudio&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
 
+&lt;h1 id=&quot;rddresilient-distributed-dataset&quot;&gt;RDD(Resilient Distributed Dataset)&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;내부에 단위 데이터를 포함&lt;/li&gt;
+  &lt;li&gt;Read-Only
+    &lt;ul&gt;
+      &lt;li&gt;변형(Transformation)을 하면 기존 RDD가 변형되는것이 아니라, 새로운 변형된 결과의 RDD가 새로 생성된다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;저장될때는 여러 서버에 나누어 저장됨&lt;/li&gt;
+  &lt;li&gt;처리될때는 각 서버에 저장된 데이터를 동시에 병렬로 처리할 수 있음
+    &lt;ul&gt;
+      &lt;li&gt;처리하는 과정에서 문제가 발생해도 복구 가능&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Partition
+    &lt;ul&gt;
+      &lt;li&gt;하나의 RDD는 여러개의 partition으로 구성되어 있음&lt;/li&gt;
+      &lt;li&gt;작업수행시 partition 단위로 병렬처리됨
+        &lt;ul&gt;
+          &lt;li&gt;partition 단위 = 병렬 프로세스의 수&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+      &lt;li&gt;작업이 수행되는 동안 재구성되거나 네트워크를 통해 다른 병렬 서버로 이동(shuffling)될 수 있음, 성능에 영향을 줌.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Transformation
+    &lt;ul&gt;
+      &lt;li&gt;기존 RDD에 변형(Transformation)을 하면 새로운 RDD가 생성된다.
+        &lt;ul&gt;
+          &lt;li&gt;예) 소문자 데이터를 대문자로 바꿔라&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Action
+    &lt;ul&gt;
+      &lt;li&gt;수행의 결과로 RDD가 아닌, 다른 값을 반환하거나 아예 반환하지 않음
+        &lt;ul&gt;
+          &lt;li&gt;예) 데이터의 총합계를 구해라&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
-```
-# 효율적인 수행이 되도록 lineage를 잘 설계할줄 알아야 하겠다.
-```</content><author><name>ChangHa Choi</name></author><category term="spark" /><category term="apache spark" /><category term="RDD" /><summary type="html">Apache Spark 학습중… 모르는 용어도 너무 많고, 이해하기 쉽지 않은 개념들도 많고 관련된 stack도 방대함…</summary></entry><entry><title type="html">markdown syntax</title><link href="https://alklid.github.io/dlog/2017/10/01/markdown-syntax/" rel="alternate" type="text/html" title="markdown syntax" /><published>2017-10-01T20:58:01+09:00</published><updated>2017-10-01T20:58:01+09:00</updated><id>https://alklid.github.io/dlog/2017/10/01/markdown-syntax</id><content type="html" xml:base="https://alklid.github.io/dlog/2017/10/01/markdown-syntax/">이미 markdown 문법에 대해서는 'markdown' 단어로 검색만 해도 무수히 많이 나옵니다.  
-가장 대표적으로 참고할 수 있는 사이트로는 github에서 제공하는 사이트를 참조하는게 좋겠습니다.
+&lt;h1 id=&quot;-keypoint&quot;&gt;! keypoint&lt;/h1&gt;
+&lt;ul&gt;
+  &lt;li&gt;lineage
+    &lt;ul&gt;
+      &lt;li&gt;Read-Only RDD가 Transformation/Actions를 통해 새로운 RDD로 만들어지는 과정이 기록된 계보(lineage)&lt;/li&gt;
+      &lt;li&gt;Fault-tolerant
+        &lt;ul&gt;
+          &lt;li&gt;데이터 처리 중간에 fault가 생겨도, 해당 데이터(RDD)가 부모 RDD로부터 어떻게 만들어졌는지 기록되어 있음으로 언제든지 다시 만들어 사용할 수 있다.&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Lazy Execution
+    &lt;ul&gt;
+      &lt;li&gt;Transformation을 통해서는 RDD의 생성 과정을 lineage에 기록만 해둠&lt;/li&gt;
+      &lt;li&gt;Action을 통해서 해당 RDD의 생성 과정을 lineage에서 가져와 순서대로 RDD를 생성하고 Action을 수행함
+&lt;img src=&quot;https://alklid.github.io/dlog/assets/img/2017-10-12-spark-01_apache-storm-vs-spark-streaming-two-stream-processing-platforms-compared-36-638.jpg&quot; alt=&quot;RDD Lineage&quot; /&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
 
-* [https://guides.github.com/features/mastering-markdown/](https://guides.github.com/features/mastering-markdown/)
-* [https://help.github.com/articles/basic-writing-and-formatting-syntax/](https://help.github.com/articles/basic-writing-and-formatting-syntax/)
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# 효율적인 수행이 되도록 lineage를 잘 설계할줄 알아야 하겠다.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><author><name>ChangHa Choi</name></author><category term="spark" /><category term="apache spark" /><category term="RDD" /><summary type="html">Apache Spark 학습중… 모르는 용어도 너무 많고, 이해하기 쉽지 않은 개념들도 많고 관련된 stack도 방대함…</summary></entry><entry><title type="html">markdown syntax</title><link href="https://alklid.github.io/dlog/2017/10/01/markdown-syntax/" rel="alternate" type="text/html" title="markdown syntax" /><published>2017-10-01T20:58:01+09:00</published><updated>2017-10-01T20:58:01+09:00</updated><id>https://alklid.github.io/dlog/2017/10/01/markdown-syntax</id><content type="html" xml:base="https://alklid.github.io/dlog/2017/10/01/markdown-syntax/">&lt;p&gt;이미 markdown 문법에 대해서는 ‘markdown’ 단어로 검색만 해도 무수히 많이 나옵니다.&lt;br /&gt;
+가장 대표적으로 참고할 수 있는 사이트로는 github에서 제공하는 사이트를 참조하는게 좋겠습니다.&lt;/p&gt;
 
-markdown 문법을 자주 사용하게 될텐데, 
-매번 찾아보기가 어려운 상황이 많을수도 있어 본 포스팅에서 연습할 겸 사용해봅니다.  
-역시나 익숙해지기 위해서는 자주 써봐야합니다.
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://guides.github.com/features/mastering-markdown/&quot;&gt;https://guides.github.com/features/mastering-markdown/&lt;/a&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://help.github.com/articles/basic-writing-and-formatting-syntax/&quot;&gt;https://help.github.com/articles/basic-writing-and-formatting-syntax/&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
+&lt;p&gt;markdown 문법을 자주 사용하게 될텐데, 
+매번 찾아보기가 어려운 상황이 많을수도 있어 본 포스팅에서 연습할 겸 사용해봅니다.&lt;br /&gt;
+역시나 익숙해지기 위해서는 자주 써봐야합니다.&lt;/p&gt;
 
-&gt; &lt;h{n}&gt; 태그와 같이 헤더를 적용하는 방법입니다. 앞에 #의 갯수를 {n}만큼 적으면 됩니다.
-```
-# This is an &lt;h1&gt; tag
-## This is an &lt;h2&gt; tag
-###### This is an &lt;h6&gt; tag
-```
-# # This is an &lt;h1&gt; tag
-## ## This is an &lt;h2&gt; tag
-###### ###### This is an &lt;h6&gt; tag
+&lt;blockquote&gt;
+  &lt;p&gt;&amp;lt;h{n}&amp;gt; 태그와 같이 헤더를 적용하는 방법입니다. 앞에 #의 갯수를 {n}만큼 적으면 됩니다.&lt;/p&gt;
+  &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# This is an &amp;lt;h1&amp;gt; tag
+## This is an &amp;lt;h2&amp;gt; tag
+###### This is an &amp;lt;h6&amp;gt; tag
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;h1 id=&quot;-this-is-an-h1-tag&quot;&gt;# This is an &amp;lt;h1&amp;gt; tag&lt;/h1&gt;
+  &lt;h2 id=&quot;-this-is-an-h2-tag&quot;&gt;## This is an &amp;lt;h2&amp;gt; tag&lt;/h2&gt;
+  &lt;h6 id=&quot;-this-is-an-h6-tag&quot;&gt;###### This is an &amp;lt;h6&amp;gt; tag&lt;/h6&gt;
+&lt;/blockquote&gt;
 
-
-&gt; italic 적용은 앞뒤로 [\*] 또는 [\_]를 붙이면 됩니다.  
-```
-*This text will be italic*  
+&lt;blockquote&gt;
+  &lt;p&gt;italic 적용은 앞뒤로 [*] 또는 [_]를 붙이면 됩니다.&lt;/p&gt;
+  &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;*This text will be italic*  
 _This will also be italic_
-```
-*\*This text will be italic\**  
-_\_This will also be italic\__
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;p&gt;&lt;em&gt;*This text will be italic*&lt;/em&gt;&lt;br /&gt;
+&lt;em&gt;_This will also be italic_&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 
+&lt;blockquote&gt;
+  &lt;p&gt;bold 적용은 앞뒤로 [*] 또는 [_]를 두번 연속해서 붙이면 됩니다.&lt;/p&gt;
+  &lt;div class=&quot;language-markdown highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;gs&quot;&gt;**This text will be italic**&lt;/span&gt;  
+&lt;span class=&quot;gs&quot;&gt;__This will also be italic__&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;p&gt;&lt;strong&gt;**This text will be bold**&lt;/strong&gt;&lt;br /&gt;
+&lt;strong&gt;__This will also be bold__&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&gt; bold 적용은 앞뒤로 [\*] 또는 [\_]를 두번 연속해서 붙이면 됩니다.  
-```markdown
-**This text will be italic**  
-__This will also be italic__
-```
-**\*\*This text will be bold\*\***  
-__\_\_This will also be bold\_\___
+&lt;blockquote&gt;
+  &lt;p&gt;unordered 목록입니다.&lt;/p&gt;
+  &lt;div class=&quot;language-md highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; Item a
+&lt;span class=&quot;p&quot;&gt;    *&lt;/span&gt; Item a-1
+&lt;span class=&quot;p&quot;&gt;*&lt;/span&gt; Item b
+&lt;span class=&quot;p&quot;&gt;    *&lt;/span&gt; Item b-1
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;ul&gt;
+    &lt;li&gt;Item a
+      &lt;ul&gt;
+        &lt;li&gt;Item a-1&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Item b
+      &lt;ul&gt;
+        &lt;li&gt;Item b-1&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/li&gt;
+  &lt;/ul&gt;
+&lt;/blockquote&gt;
 
+&lt;blockquote&gt;
+  &lt;p&gt;ordered 목록입니다.&lt;/p&gt;
+  &lt;div class=&quot;language-mkd highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;1.&lt;/span&gt; Item 1
+&lt;span class=&quot;p&quot;&gt;    1.&lt;/span&gt; Item 1-1
+&lt;span class=&quot;p&quot;&gt;1.&lt;/span&gt; Item 2
+&lt;span class=&quot;p&quot;&gt;    1.&lt;/span&gt; Item 2-1
+&lt;span class=&quot;p&quot;&gt;    1.&lt;/span&gt; Item 2-2
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;ol&gt;
+    &lt;li&gt;Item 1
+      &lt;ol&gt;
+        &lt;li&gt;Item 1-1&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+    &lt;li&gt;Item 2
+      &lt;ol&gt;
+        &lt;li&gt;Item 2-1&lt;/li&gt;
+        &lt;li&gt;Item 2-2&lt;/li&gt;
+      &lt;/ol&gt;
+    &lt;/li&gt;
+  &lt;/ol&gt;
+&lt;/blockquote&gt;
 
-&gt; unordered 목록입니다.
-```md
-* Item a
-    * Item a-1
-* Item b
-    * Item b-1
-```
-* Item a
-    * Item a-1
-* Item b
-    * Item b-1  
-
-
-&gt; ordered 목록입니다.
-```mkd
-1. Item 1
-    1. Item 1-1
-1. Item 2
-    1. Item 2-1
-    1. Item 2-2
-```
-1. Item 1
-    1. Item 1-1
-1. Item 2
-    1. Item 2-1
-    1. Item 2-2
- 
-    
-&gt; 문장안에서 코드를 표현하는 inline code를 사용할때에는 앞뒤로 backticks(`)를 붙이면 됩니다.  
-```
-I think you should use an `&lt;addr&gt;` element here instead.  
+&lt;blockquote&gt;
+  &lt;p&gt;문장안에서 코드를 표현하는 inline code를 사용할때에는 앞뒤로 backticks(`)를 붙이면 됩니다.&lt;/p&gt;
+  &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;I think you should use an `&amp;lt;addr&amp;gt;` element here instead.  
 Use `git status` to list all new or modified files that haven't yet been committed.
-```
-I think you should use an `&lt;addr&gt;` element here instead.  
-Use `git status` to list all new or modified files that haven't yet been committed.
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;p&gt;I think you should use an &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;addr&amp;gt;&lt;/code&gt; element here instead.&lt;br /&gt;
+Use &lt;code class=&quot;highlighter-rouge&quot;&gt;git status&lt;/code&gt; to list all new or modified files that haven’t yet been committed.&lt;/p&gt;
+&lt;/blockquote&gt;
 
+&lt;blockquote&gt;
+  &lt;p&gt;취소선은 앞뒤로 [~]를 두번 연속해서 붙이면 됩니다.&lt;/p&gt;
+  &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;~~show me the money~~
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;p&gt;&lt;del&gt;show me the money&lt;/del&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&gt; 취소선은 앞뒤로 [~]를 두번 연속해서 붙이면 됩니다.
-```
-~~show me the money~~
-```
-~~show me the money~~
+&lt;blockquote&gt;
+  &lt;p&gt;링크는 [링크걸릴문장](링크주소) 로 표현합니다. 다만 ‘_blank’ target 지정과 같이 새창으로 띄우는 설정은 따로 없습니다.&lt;/p&gt;
+  &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[facebook url](https://fb.com/changhachoi)
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+  &lt;p&gt;&lt;a href=&quot;https://fb.com/changhachoi&quot;&gt;facebook url&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&gt; 링크는 \[링크걸릴문장\]\(링크주소\) 로 표현합니다. 다만 '_blank' target 지정과 같이 새창으로 띄우는 설정은 따로 없습니다.
-```
-[facebook url](https://fb.com/changhachoi)
-```
-[facebook url](https://fb.com/changhachoi)
+&lt;blockquote&gt;
+  &lt;p&gt;code highlight는 두가지 방법이 있습니다.&lt;br /&gt;
+&lt;a href=&quot;https://jekyllrb.com/docs/templates/#code-snippet-highlighting&quot;&gt;jekyll template 문법&lt;/a&gt;의 경우 linenos를 통해 line number 표현까지 가능하며,&lt;/p&gt;
+&lt;/blockquote&gt;
 
-&gt; code highlight는 두가지 방법이 있습니다.  
-[jekyll template 문법](https://jekyllrb.com/docs/templates/#code-snippet-highlighting)의 경우 linenos를 통해 line number 표현까지 가능하며,
-{% highlight ruby linenos %}
-def foo
-  puts 'foo'
-end
-{% endhighlight %}  
-&gt; [markdown 문법](https://help.github.com/articles/creating-and-highlighting-code-blocks/)의 경우는 line number 표현은 불가능합니다.  
-```ruby
-def foo
-  puts 'foo'
-end
-```
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ruby&quot; data-lang=&quot;ruby&quot;&gt;&lt;table style=&quot;border-spacing: 0&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot; style=&quot;text-align: right&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'foo'&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&gt;</content><author><name>ChangHa Choi</name></author><category term="markdown" /><category term="md" /><summary type="html">이미 markdown 문법에 대해서는 ‘markdown’ 단어로 검색만 해도 무수히 많이 나옵니다. 가장 대표적으로 참고할 수 있는 사이트로는 github에서 제공하는 사이트를 참조하는게 좋겠습니다.</summary></entry><entry><title type="html">dlog - jekyll theme</title><link href="https://alklid.github.io/dlog/2017/09/24/dlog-jekyll-theme/" rel="alternate" type="text/html" title="dlog - jekyll theme" /><published>2017-09-24T22:06:14+09:00</published><updated>2017-09-24T22:06:14+09:00</updated><id>https://alklid.github.io/dlog/2017/09/24/dlog-jekyll-theme</id><content type="html" xml:base="https://alklid.github.io/dlog/2017/09/24/dlog-jekyll-theme/">DLOG 첫번째 포스팅은 jekyll blog theme 입니다.
+&lt;blockquote&gt;
+  &lt;p&gt;&lt;a href=&quot;https://help.github.com/articles/creating-and-highlighting-code-blocks/&quot;&gt;markdown 문법&lt;/a&gt;의 경우는 line number 표현은 불가능합니다.&lt;/p&gt;
+  &lt;div class=&quot;language-ruby highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;foo&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;puts&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'foo'&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+  &lt;/div&gt;
+&lt;/blockquote&gt;
 
-brunch에서 언급([https://brunch.co.kr/@alklid/12](https://brunch.co.kr/@alklid/12))한데로 github pages에 기술블로그를 만들어 보기위해 jekyll을 올렸습니다.  
-github pages에 jekyll을 올리는 방법에 대해서는 워낙 다양한 자료가 이미 있어서 따로 정리하지는 않았습니다.  
-[jekyll 공식 사이트](https://jekyllrb.com), [한글번역사이트](https://jekyllrb-ko.github.io/) 공식사이트가 있긴 하지만, 만든 사람보다 써본사람이 초기에 이해하기 쉽게 설명해주는 편인것 같습니다.
-[xho96's Swift Lift](https://xho95.github.io/blog/github/jekyll/git/2016/01/11/Make-a-blog-with-Jekyll.html), [Nolboo's Blog](https://nolboo.kim/blog/2013/10/15/free-blog-with-github-jekyll/) 정도 보시면 도움될 것 같습니다.  
+&lt;blockquote&gt;
 
-깔끔한게 좋아서 [http://jekyllthemes.org](http://jekyllthemes.org) 이곳에서 테마를 찾아 보았지만, 취향저격 테마가 없어서  
-그중 제일 깔끔해보이는 Adam Blog Theme [https://github.com/artemsheludko/adam-blog](https://github.com/artemsheludko/adam-blog)를 기반으로 조금 변경해 보았습니다.
+&lt;/blockquote&gt;</content><author><name>ChangHa Choi</name></author><category term="markdown" /><category term="md" /><summary type="html">이미 markdown 문법에 대해서는 ‘markdown’ 단어로 검색만 해도 무수히 많이 나옵니다. 가장 대표적으로 참고할 수 있는 사이트로는 github에서 제공하는 사이트를 참조하는게 좋겠습니다.</summary></entry><entry><title type="html">dlog - jekyll theme</title><link href="https://alklid.github.io/dlog/2017/09/24/dlog-jekyll-theme/" rel="alternate" type="text/html" title="dlog - jekyll theme" /><published>2017-09-24T22:06:14+09:00</published><updated>2017-09-24T22:06:14+09:00</updated><id>https://alklid.github.io/dlog/2017/09/24/dlog-jekyll-theme</id><content type="html" xml:base="https://alklid.github.io/dlog/2017/09/24/dlog-jekyll-theme/">&lt;p&gt;DLOG 첫번째 포스팅은 jekyll blog theme 입니다.&lt;/p&gt;
 
-이미 Adam Blog Theme 에 여러가지 plugin이 지원되도록 설정되어 있습니다.
-* Google Fonts
-* Font Awesome
-* Disqus
-* MailChimp
-* Analytics
-* Search  
-  
-  
-  
-추가로 변경한 사항은 아래와 같습니다.
-* post-card to post-list
-    * 사진위주의 포스팅목록의 배치가 카드형식으로 되어 있어, 이를 리스트 형식으로 변경했습니다.
-* Analytics
-    * Google Analytics의 추적코드를 기존 analytics.js에서 gtag.js기반으로 변경했습니다.
-* _site directory structure
-    * 빌드시 _site폴더 하위에 post 생성이 분류가 안되고 있어 yyyy/mm/dd순으로 생성되도록 설정을 변경했습니다.
-* _sass auto compile
-    * 따로 compile 해야했던 assets/sass들을 빌드시 자동으로 compile되도록 폴더구성과 설정을 변경했습니다.
-* code highlight
-    * code highlight monokai theme로 변경했습니다.
-* baseurl 설정시 pagenation 링크 오류 수정
-    * pagenation 링크에 baseurl 설정값이 표현되어 있지 않아, 링크주소가 잘못 설정되는 오류를 수정했습니다.
-    
+&lt;p&gt;brunch에서 언급(&lt;a href=&quot;https://brunch.co.kr/@alklid/12&quot;&gt;https://brunch.co.kr/@alklid/12&lt;/a&gt;)한데로 github pages에 기술블로그를 만들어 보기위해 jekyll을 올렸습니다.&lt;br /&gt;
+github pages에 jekyll을 올리는 방법에 대해서는 워낙 다양한 자료가 이미 있어서 따로 정리하지는 않았습니다.&lt;br /&gt;
+&lt;a href=&quot;https://jekyllrb.com&quot;&gt;jekyll 공식 사이트&lt;/a&gt;, &lt;a href=&quot;https://jekyllrb-ko.github.io/&quot;&gt;한글번역사이트&lt;/a&gt; 공식사이트가 있긴 하지만, 만든 사람보다 써본사람이 초기에 이해하기 쉽게 설명해주는 편인것 같습니다.
+&lt;a href=&quot;https://xho95.github.io/blog/github/jekyll/git/2016/01/11/Make-a-blog-with-Jekyll.html&quot;&gt;xho96’s Swift Lift&lt;/a&gt;, &lt;a href=&quot;https://nolboo.kim/blog/2013/10/15/free-blog-with-github-jekyll/&quot;&gt;Nolboo’s Blog&lt;/a&gt; 정도 보시면 도움될 것 같습니다.&lt;/p&gt;
 
-변경한 사항에 대한 Theme는 준비되는데로 github repo에 올려놓겠습니다.</content><author><name>ChangHa Choi</name></author><category term="jekyll" /><summary type="html">DLOG 첫번째 포스팅은 jekyll blog theme 입니다.</summary></entry></feed>
+&lt;p&gt;깔끔한게 좋아서 &lt;a href=&quot;http://jekyllthemes.org&quot;&gt;http://jekyllthemes.org&lt;/a&gt; 이곳에서 테마를 찾아 보았지만, 취향저격 테마가 없어서&lt;br /&gt;
+그중 제일 깔끔해보이는 Adam Blog Theme &lt;a href=&quot;https://github.com/artemsheludko/adam-blog&quot;&gt;https://github.com/artemsheludko/adam-blog&lt;/a&gt;를 기반으로 조금 변경해 보았습니다.&lt;/p&gt;
+
+&lt;p&gt;이미 Adam Blog Theme 에 여러가지 plugin이 지원되도록 설정되어 있습니다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Google Fonts&lt;/li&gt;
+  &lt;li&gt;Font Awesome&lt;/li&gt;
+  &lt;li&gt;Disqus&lt;/li&gt;
+  &lt;li&gt;MailChimp&lt;/li&gt;
+  &lt;li&gt;Analytics&lt;/li&gt;
+  &lt;li&gt;Search&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;추가로 변경한 사항은 아래와 같습니다.&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;post-card to post-list
+    &lt;ul&gt;
+      &lt;li&gt;사진위주의 포스팅목록의 배치가 카드형식으로 되어 있어, 이를 리스트 형식으로 변경했습니다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Analytics
+    &lt;ul&gt;
+      &lt;li&gt;Google Analytics의 추적코드를 기존 analytics.js에서 gtag.js기반으로 변경했습니다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;_site directory structure
+    &lt;ul&gt;
+      &lt;li&gt;빌드시 _site폴더 하위에 post 생성이 분류가 안되고 있어 yyyy/mm/dd순으로 생성되도록 설정을 변경했습니다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;_sass auto compile
+    &lt;ul&gt;
+      &lt;li&gt;따로 compile 해야했던 assets/sass들을 빌드시 자동으로 compile되도록 폴더구성과 설정을 변경했습니다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;code highlight
+    &lt;ul&gt;
+      &lt;li&gt;code highlight monokai theme로 변경했습니다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+  &lt;li&gt;baseurl 설정시 pagenation 링크 오류 수정
+    &lt;ul&gt;
+      &lt;li&gt;pagenation 링크에 baseurl 설정값이 표현되어 있지 않아, 링크주소가 잘못 설정되는 오류를 수정했습니다.&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;변경한 사항에 대한 Theme는 준비되는데로 github repo에 올려놓겠습니다.&lt;/p&gt;</content><author><name>ChangHa Choi</name></author><category term="jekyll" /><summary type="html">DLOG 첫번째 포스팅은 jekyll blog theme 입니다.</summary></entry></feed>
