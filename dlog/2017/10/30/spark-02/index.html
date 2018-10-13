@@ -144,20 +144,18 @@ application에서의 처리가 아닌 spark 설정상으로 일관성있게 생�
   <li>spark-shell 에서의 CSV생성
     <ul>
       <li>생성하는 코드
-        <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">rdd</span> <span class="k">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="o">)</span>
+        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="n">rdd</span> <span class="k">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="o">)</span>
 <span class="n">rdd</span><span class="o">.</span><span class="n">toDF</span><span class="o">.</span><span class="n">coalesce</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="s">"c:\\test"</span><span class="o">)</span>
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
       <li>생성된 결과
-        <div class="highlighter-rouge"><pre class="highlight"><code>95[CR][LF]
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>95[CR][LF]
 96[CR][LF]
 97[CR][LF]
 98[CR][LF]
 99[CR][LF]
 100[CR][LF]
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
       <li>
         <h3 style="color:red;" id="new-line-char가-모두-cr-lf로-적용된다">new-line char가 모두 <code class="highlighter-rouge">CR</code> <code class="highlighter-rouge">LF</code>로 적용된다.</h3>
@@ -167,7 +165,7 @@ application에서의 처리가 아닌 spark 설정상으로 일관성있게 생�
   <li>java project 에서의 CSV생성
     <ul>
       <li>java code
-        <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"## start....."</span><span class="o">);</span>
+        <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"## start....."</span><span class="o">);</span>
 <span class="err">　</span>
 <span class="n">String</span> <span class="n">appName</span> <span class="o">=</span> <span class="s">"work1"</span><span class="o">;</span>
 <span class="n">SparkSession</span> <span class="n">spark</span> <span class="o">=</span> <span class="n">sparkContextUtil</span><span class="o">.</span><span class="na">getSparkSession</span><span class="o">(</span><span class="n">appName</span><span class="o">);</span>
@@ -199,11 +197,10 @@ application에서의 처리가 아닌 spark 설정상으로 일관성있게 생�
 <span class="o">}</span>
 <span class="err">　</span>
 <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"## end....."</span><span class="o">);</span>
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
       <li>scala code
-        <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">package</span> <span class="nn">com.alklid.spark.test</span>
+        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">package</span> <span class="nn">com.alklid.spark.test</span>
 <span class="err">　</span>      
 <span class="k">import</span> <span class="nn">org.apache.spark.sql.</span><span class="o">{</span><span class="nc">SaveMode</span><span class="o">,</span> <span class="nc">SparkSession</span><span class="o">}</span>
 <span class="err">　</span>
@@ -243,11 +240,10 @@ application에서의 처리가 아닌 spark 설정상으로 일관성있게 생�
   <span class="nc">System</span><span class="o">.</span><span class="n">out</span><span class="o">.</span><span class="n">println</span><span class="o">(</span><span class="s">"## end....."</span><span class="o">)</span>
  <span class="o">}</span>
 <span class="o">}</span>
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
       <li>생성된 결과
-        <div class="highlighter-rouge"><pre class="highlight"><code>47[CR][LF]
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>47[CR][LF]
 48[CR][LF]
 49[CR][LF]
 50[LF] --- partition01
@@ -257,8 +253,7 @@ application에서의 처리가 아닌 spark 설정상으로 일관성있게 생�
 98[CR][LF]
 99[CR][LF]
 100[LF] --- partition02
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
       <li>
         <h3 style="color:red;" id="new-line-char가-cr-lf로-적용되다가-partition에서-생성되는-파일의-마지막라인에서는-lf가-적용된다">new-line char가 <code class="highlighter-rouge">CR</code> <code class="highlighter-rouge">LF</code>로 적용되다가, partition에서 생성되는 파일의 마지막라인에서는 <code class="highlighter-rouge">LF</code>가 적용된다.</h3>
@@ -272,20 +267,18 @@ application에서의 처리가 아닌 spark 설정상으로 일관성있게 생�
   <li>spark-shell 에서의 CSV생성
     <ul>
       <li>생성하는 코드
-        <div class="language-scala highlighter-rouge"><pre class="highlight"><code><span class="k">val</span> <span class="n">rdd</span> <span class="k">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="o">)</span>
+        <div class="language-scala highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">val</span> <span class="n">rdd</span> <span class="k">=</span> <span class="n">sc</span><span class="o">.</span><span class="n">parallelize</span><span class="o">(</span><span class="mi">1</span> <span class="n">to</span> <span class="mi">100</span><span class="o">)</span>
 <span class="n">rdd</span><span class="o">.</span><span class="n">toDF</span><span class="o">.</span><span class="n">coalesce</span><span class="o">(</span><span class="mi">1</span><span class="o">).</span><span class="n">write</span><span class="o">.</span><span class="n">csv</span><span class="o">(</span><span class="s">"/home/sparkTest/test"</span><span class="o">)</span>
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
       <li>생성된 결과
-        <div class="highlighter-rouge"><pre class="highlight"><code>95[LF]
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>95[LF]
 96[LF]
 97[LF]
 98[LF]
 99[LF]
 100[LF]
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
       <li>
         <h3 style="color:red;" id="new-line-char가-모두-lf로-적용된다">new-line char가 모두 <code class="highlighter-rouge">LF</code>로 적용된다.</h3>
@@ -296,14 +289,13 @@ application에서의 처리가 아닌 spark 설정상으로 일관성있게 생�
     <ul>
       <li>java code : 위의 소스를 동일하게 linux에서 실행했다.</li>
       <li>생성된 결과
-        <div class="highlighter-rouge"><pre class="highlight"><code>95[LF]
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>95[LF]
 96[LF]
 97[LF]
 98[LF]
 99[LF]
 100[LF]
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
       <li>
         <h3 style="color:red;" id="new-line-char가-모두-lf로-적용된다-1">new-line char가 모두 <code class="highlighter-rouge">LF</code>로 적용된다.</h3>
@@ -399,7 +391,7 @@ application에서의 처리가 아닌 spark 설정상으로 일관성있게 생�
 
   <footer class="main-footer">
   <div class="copyright">
-    <p>2017 &copy; ChangHa Choi</p>
+    <p>2018 &copy; ChangHa Choi</p>
   </div>
 </footer> <!-- End Footer -->
 

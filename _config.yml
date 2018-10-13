@@ -30,7 +30,7 @@ discus_identifier: 'alklid' # Add your discus identifier
 analytics: 'UA-640913-4' # Google Analytics
 
 # Paginate
-paginate: 3
+paginate: 10
 paginate_path: /page:num/
 
 # Build settings
