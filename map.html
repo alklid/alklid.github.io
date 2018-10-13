@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+				<meta http-equiv="Expires" content="Mon, 06 Jan 1990 00:00:01 GMT">
+				<meta http-equiv="Expires" content="-1">
+				<meta http-equiv="Pragma" content="no-cache">
+				<meta http-equiv="Cache-Control" content="no-cache">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>지도</title>
+    <script src="https://code.jquery.com/jquery-1.12.4.min.js"
+            integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ="
+            crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?clientId=CPEijv6EWHvaDxem9Qbb&submodules=geocoder"></script>
+    <style>
+        html {
+            height: 100%;
+        }
+        body {
+            height: 100%;
+        }
+        #wrap {
+            height: 100%;
+        }
+        #map .buttons, #map .checkbox {
+            position:absolute;
+            top:0;
+            left:0;
+            z-index:1000;
+            padding:5px;
+        }
+        #map .buttons .control-btn {
+            margin:0 5px 5px 0;
+        }
+        #map .checkbox {
+            top:30px;
+            left:5px;
+            border:solid 1px #333;
+            padding:2px;
+            background-color:#fff;
+            display:none;
+            font-size:11px;
+        }
+        input[type="checkbox"] {
+            margin-left: 0px !important;
+        }
+								
+								.metroinfo {
+												font-size: 11px;
+												padding: 5px;
+								}
+								
+								.metrolineTitle {
+												font-weight: bold;
+												color: darkblue;
+								}
+								
+								.metrolineinfo {
+												font-weight: bold;
+												color: green;
+								}
+    </style>
+</head>
+
+<body>
+<div id="wrap" class="section">
+    <div id="map" style="width:100%;height:100%;">
+        <div class="buttons">
+												<input id="busWH" type="button" value="[버스] 도래울마을2단지" class="control-btn" />
+												<br/>
+            <input id="metroWH" type="button" value="[지하철] 원흥역" class="control-btn" />
+												<br/>
+												<input id="metroDMC" type="button" value="[지하철] DMC역" class="control-btn" />
+												<br/>
+												<input id="busDMC" type="button" value="[버스] DMC 2번출구" class="control-btn" />
+												<br/>
+												<input id="traffic" type="button" value="교통상황" class="control-btn" />
+        </div>
+        <div class="checkbox">
+            <input id="autorefresh" type="checkbox" checked="checked" value="1" /><label for="autorefresh">자동 새로고침</label>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+				// apikey
+    var dataPortal_ApiKey = 'Q1PTpbb7CaQ5yoqDp7XIVf3A%2BF8UdpAsa6svDOuefGfmG%2FMqdkzkQ%2B6iMPmsGgYLFFasdnlidrOaBDcsQ7BYgQ%3D%3D';
+    var seoul_ApiKey = '596175664d616c6b313038554d4f6f51';
+				/*
+    // 주소로 좌표 알아내기 start
+    naver.maps.Service.geocode({
+        address: '서울특별시 마포구 상암동 1140'
+    }, function(status, response) {
+        if (status !== naver.maps.Service.Status.OK) {
+            return alert('Something wrong!');
+        }
+
+        var result = response.result, // 검색 결과의 컨테이너
+            items = result.items; // 검색 결과의 배열
+
+        // do Something
+        console.log(items);
+    });
+    // 주소로 좌표 알아내기 end
+				*/
+				
+				// 지도 불러오기 start
+    var mapOptions = {
+        center: new naver.maps.LatLng(37.6376363, 126.8728186),
+        zoom: 10,
+        zoomControl: true,
+        zoomControlOptions: { //줌 컨트롤의 옵션
+            position: naver.maps.Position.TOP_RIGHT
+        },
+        mapTypeControl: true,
+    };
+    var map = new naver.maps.Map('map', mapOptions);
+				// 지도 불러오기 end
+				
+
+    // 교통상황 start
+    var trafficLayer = new naver.maps.TrafficLayer({
+        interval: 2000 // 2초마다 새로고침
+    });
+				
+    var btn = $('#traffic');
+    naver.maps.Event.addListener(map, 'trafficLayer_changed', function(trafficLayer) {
+        if (trafficLayer) {
+            btn.addClass('control-on');
+            $("#autorefresh").parent().show();
+            $("#autorefresh")[0].checked = true;
+        } else {
+            btn.removeClass('control-on');
+            $("#autorefresh").parent().hide();
+        }
+    });
+
+    btn.on("click", function(e) {
+        e.preventDefault();
+        if (trafficLayer.getMap()) {
+            trafficLayer.setMap(null);
+        } else {
+            trafficLayer.setMap(map);
+        }
+    });
+
+    $("#autorefresh").on("click", function(e) {
+        var btn = $(this),
+            checked = btn.is(":checked");
+        if (checked) {
+            trafficLayer.startAutoRefresh();
+        } else {
+            trafficLayer.endAutoRefresh();
+        }
+    });
+    // 교통상황 end
+
+				
+    // 버스 정류장표시 start
+    // 도래울마을2.3단지 / x : 126.8700257871, y : 37.6324143531
+				// 디지털미디어시티2번출구 / x : 126.899679246, y : 37.5749855109
+    var busWH = new naver.maps.LatLng(37.6324143531, 126.8700257871);
+				var busDMC = new naver.maps.LatLng(37.5749855109, 126.899679246);
+				var markerOptBusStation = {
+        position: busWH,
+        map: map,
+        icon: {
+            url: '/dist/img/sp_pins_around.png',
+            size: new naver.maps.Size(20, 26),
+            origin: new naver.maps.Point(322, 0),
+            anchor: new naver.maps.Point(10, 26)
+        }
+    }
+    var busMarkerWH = new naver.maps.Marker(markerOptBusStation);
+				var markerOptBusStation = {
+        position: busDMC,
+        map: map,
+        icon: {
+            url: '/dist/img/sp_pins_around.png',
+            size: new naver.maps.Size(20, 26),
+            origin: new naver.maps.Point(322, 0),
+            anchor: new naver.maps.Point(10, 26)
+        }
+    }
+    var busMarkerDMC = new naver.maps.Marker(markerOptBusStation);
+    // 버스 정류장표시 end
+
+
+    // 지하철 정류장표시 start
+    // 원흥역 / x : 126.8737119, y: 37.6508424
+				// DMC역 / x: 126.8991592, y: 37.5768917
+				var stationWH = new naver.maps.LatLng(37.6508424, 126.8737119);
+				var stationDMC = new naver.maps.LatLng(37.5768917, 126.8991592);
+    var markerOptMetroStation = {
+        position: stationWH,
+        map: map,
+        icon: {
+            url: '/dist/img/sp_pins_around.png',
+            size: new naver.maps.Size(20, 26),
+            origin: new naver.maps.Point(345, 0),
+            anchor: new naver.maps.Point(10, 26)
+        }
+    }
+    var metroMarkerWH = new naver.maps.Marker(markerOptMetroStation);
+				var markerOptMetroStation = {
+        position: stationDMC,
+        map: map,
+        icon: {
+            url: '/dist/img/sp_pins_around.png',
+            size: new naver.maps.Size(20, 26),
+            origin: new naver.maps.Point(345, 0),
+            anchor: new naver.maps.Point(10, 26)
+        }
+    }
+    var metroMarkerDMC = new naver.maps.Marker(markerOptMetroStation);
+    // 지하철 정류장표시 end
+
+
+    // 경기도 버스실시간 위치 start
+				// 도래울2.3단지
+				//	 - 원흥역방면 정류소 / mobileNo : 19604 / stationId : 218000691
+				//		- 행신동방면 정류소 / mobileNo : 19606 / stationId : 218000693
+				// 버스
+				// 	- 733 / routeId : 218000108 / routeName : 733
+				// 	- 95 / routeId : 232000004 / routeName : 95
+				var busWHBtn = $('#busWH');
+				var busWHInfo = new Array();
+				busWHBtn.on("click", function(e) {
+        e.preventDefault();
+        getBus('gg', ['218000691', '218000693'], busWHCallBack);
+								map.setCenter(busWH);
+    });
+				var busDMCBtn = $('#busDMC');
+				busDMCBtn.on("click", function(e) {
+        e.preventDefault();
+        getBus('seoul', busDMCCallBack);
+								map.setCenter(busDMC);
+    });
+				function getBus(city, routes, callBackName) {
+								if (city == "gg") {
+												routes.forEach( function( v, i ) {
+																//var bus_svr = 'http://openapi.gbis.go.kr/ws/rest/busarrivalservice/station?';
+																var bus_svr = 'http://52.79.214.50:18888/ws/rest/busarrivalservice/station?';
+																var bus_key = dataPortal_ApiKey;
+																var bus_url = bus_svr;
+																				bus_url += 'serviceKey=' + bus_key;
+																				bus_url += '&stationId=' + v;
+
+																var xhr = new XMLHttpRequest();
+																xhr.open('GET', bus_url);
+																xhr.onreadystatechange = function () {
+																				if (this.readyState == 4 && this.status == 200) {
+																								callBackName(routes.length, JSON.parse(JSON.parse(this.responseText)));
+																				}
+																};
+																xhr.send('');
+												});
+								} else if (city =="seoul") {
+												var bus_url = 'https://map.naver.com/api.pubtrans/2.2/live/getBusArrival.jsonp?_callback=busDMCCallBack&stationId=150813&caller=pc_map&dummy=1519793518834&_=1519817424686';
+												$.ajax({
+																url: bus_url,
+																dataType: 'jsonp',
+																success: callBackName
+												});
+								}
+				}
+				function busWHCallBack(len, data) {
+								if (busWHInfo.length < len) {
+												busWHInfo.push(data.response);
+												
+												if (busWHInfo.length == len) {
+																var markerInfo = getBusWHMarkerInfo(busWHInfo);
+																var infowindow = new naver.maps.InfoWindow({
+																				content: markerInfo
+																});
+																infowindow.open(map, busMarkerWH);
+																busWHInfo = new Array();
+												}
+								}
+				}
+				function busDMCCallBack(data) {
+								var markerInfo = getBusDMCMarkerInfo(data);
+								var infowindow = new naver.maps.InfoWindow({
+												content: markerInfo
+								});
+								infowindow.open(map, busMarkerDMC);
+				}
+				function getBusWHMarkerInfo(data) {
+								var markerInfo = new Array();
+								var contentString = null;
+								var errorCode = '';
+								var errorMsg = '';
+								
+								var upLineInfo = '';
+								var downLineInfo = '';
+								data.forEach( function( v, i ) {
+												if (typeof v.msgBody == "undefined") {
+																errorCode = v.msgHeader["resultCode"];
+																errorMsg = v.msgHeader["resultMessage"];
+												} else {
+																if (v.msgHeader["resultCode"] == "0") {
+																				var stationId = '';
+																				var lineInfo = '';
+																				if (v.msgBody.busArrivalList.constructor.name == "Array") {
+																								v.msgBody.busArrivalList.forEach( function( b, j ) {
+																												if (j == 0) {
+																																stationId = b.stationId;
+																												}
+																												if (b.routeId == 218000108 || b.routeId == 232000004) {
+																																lineInfo += '<span class="metrolineinfo">' + getBusName(b.routeId) + '</span><br/>';
+																																lineInfo += '<span>#1. ' + b.locationNo1 + '전 정류소 (' + b.predictTime1 + '분 후 도착예정)</span><br/>';
+																																lineInfo += '<span>#2. ' + b.locationNo2 + '전 정류소 (' + b.predictTime2 + '분 후 도착예정)</span><br/><br/>';
+																												}
+																								});
+																				} else {
+																								var b = v.msgBody.busArrivalList;
+																								stationId = b.stationId;
+																								if (b.routeId == 218000108 || b.routeId == 232000004) {
+																												lineInfo += '<span class="metrolineinfo">' + getBusName(b.routeId) + '</span><br/>';
+																												lineInfo += '<span>#1. ' + b.locationNo1 + '전 정류소 (' + b.predictTime1 + '분 후 도착예정)</span><br/>';
+																												lineInfo += '<span>#2. ' + b.locationNo2 + '전 정류소 (' + b.predictTime2 + '분 후 도착예정)</span><br/><br/>';
+																								}
+																				}
+																				
+																				if (stationId == "218000691") {
+																								//원흥역 방면
+																								upLineInfo += '<span class="metrolineTitle">@ 원흥역 방면</span><br/>';
+																								upLineInfo += lineInfo;
+																				} else if (stationId == "218000693") {
+																								//행신동 방면
+																								downLineInfo += '<span class="metrolineTitle">@ 행신동 방면</span><br/>';
+																								downLineInfo += lineInfo;
+																				}
+																} else {
+																				errorCode = data.msgHeader["resultCode"];
+																				errorMsg = data.msgHeader["resultMessage"];
+																}
+												}
+								});
+								
+								contentString = [
+												'<div class="metroinfo">',
+												upLineInfo,
+												'<br/>',
+												downLineInfo,
+												'</div>'
+								].join('');
+								
+								if (contentString == null) {
+												if (typeof errorCode == "undefined") {
+																errorMsg = "공공데이터 API가 응답하지 않습니다.";
+												}
+												contentString = [
+																'<div class="metroinfo">',
+																'	<span>' + errorMsg + '</span>',
+																'</div>'
+												].join('');
+								}
+								return contentString;
+				}
+				function getBusDMCMarkerInfo(data) {
+								var markerInfo = new Array();
+								var contentString = null;
+								var errorCode = '';
+								var errorMsg = '';
+								
+								var lineInfo = '';
+								if (typeof data.message.result.busArrivalList != "undefined") {
+												data.message.result.busArrivalList.forEach( function( v, i ) {
+																lineInfo += '<span class="metrolineinfo">' + getBusName(v.routeId) + '</span><br/>';
+																if (v.locationNo1 != null) {
+																				lineInfo += '<span>#1. ' + v.locationNo1 + '전 정류소 (' + parseInt(v.predictTime1/60) + '분 후 도착예정)</span><br/>';
+																} else {
+																				lineInfo += '<span style="color:red;">정보없음</span><br/>';
+																}
+																if (v.locationNo2 != null) {
+																				lineInfo += '<span>#2. ' + v.locationNo2 + '전 정류소 (' + parseInt(v.predictTime2/60) + '분 후 도착예정)</span><br/><br/>';
+																} else {
+																				lineInfo += '<br/>';
+																}
+												});
+												
+												contentString = [
+																'<div class="metroinfo">',
+																lineInfo,
+																'</div>'
+												].join('');
+								}
+								
+								if (contentString == null) {
+												if (typeof errorCode == "undefined") {
+																errorMsg = "공공데이터 API가 응답하지 않습니다.";
+												}
+												contentString = [
+																'<div class="metroinfo">',
+																'	<span>' + errorMsg + '</span>',
+																'</div>'
+												].join('');
+								}
+								return contentString;
+				}
+				function getflagMsgMetro(flag) {
+								//RUN:운행중, PASS:운행중, STOP:운행중료, WAIT:회차지대기
+								var flagMsg = '';
+								switch (flag) {
+												case 'STOP':
+																flagMsg = "운행중료";
+																break;
+												case 'WAIT':
+																flagMsg = "회차지대기";
+																break;
+												default:
+																flagMsg = "운행중";
+								}
+								return flagMsg;
+				}
+				function getBusName(routeId) {
+								// 	- 733 / routeId : 218000108 / routeName : 733
+								// 	- 95 / routeId : 232000004 / routeName : 95
+								// 	- 7013A / routeId : 1244
+								// 	- 7711 / routeId : 1282
+								// 	- 7016 / routeId : 1247
+								// 	- 771 / routeId : 1377
+								// 	- 670 / routeId : 1430
+								// 	- 7013B / routeId : 1812
+								// 	- 6715 / routeId : 1230
+								// 	- 7730 / routeId : 1302
+								var busName = '';
+								switch (routeId) {
+												case 218000108:
+																busName = "733";
+																break;
+												case 232000004:
+																busName = "95";
+																break;
+												case "1244":
+																busName = "7013A";
+																break;
+												case "1282":
+																busName = "7711";
+																break;
+												case "1247":
+																busName = "7016";
+																break;
+												case "1377":
+																busName = "771";
+																break;
+												case "1430":
+																busName = "670";
+																break;
+												case "1812":
+																busName = "7013B";
+																break;
+												case "1230":
+																busName = "6715";
+																break;
+												case "1302":
+																busName = "7730";
+																break;
+												default:
+																busName = "정보없음";
+								}
+								return busName;
+				}
+    // 버스실시간 위치 end
+
+
+    // 지하철 도착정보 start
+				var metroWHBtn = $('#metroWH');
+				metroWHBtn.on("click", function(e) {
+        e.preventDefault();
+        getMetro('원흥', metroWHCallBack);
+								map.setCenter(stationWH);
+    });
+				var metroDMCBtn = $('#metroDMC');
+				metroDMCBtn.on("click", function(e) {
+        e.preventDefault();
+        getMetro('디지털미디어시티', metroDMCCallBack);
+								map.setCenter(stationDMC);
+    });
+				function metroWHCallBack(data) {
+								var markerInfo = getMetroWHMarkerInfo(data);
+								var infowindow = new naver.maps.InfoWindow({
+												content: markerInfo[0],
+												borderColor: markerInfo[1],
+												borderWidth: markerInfo[2]
+								});
+								infowindow.open(map, metroMarkerWH);
+				}
+				function getMetroWHMarkerInfo(data) {
+								var markerInfo = new Array();
+								var contentString = null;
+								var errorCode = '';
+								var errorMsg = '';
+								
+								if (typeof data.errorMessage == "undefined") {
+												errorCode = data.code;
+												errorMsg = data.message;
+								} else {
+												if (data.errorMessage["code"] == "INFO-000") {
+																var lineInfo = getLineInfo(data.realtimeArrivalList, 'down');
+																contentString = [
+																				'<div class="metroinfo">',
+																				lineInfo[1],
+																				'<br/>',
+																				lineInfo[0],
+																				'</div>'
+																].join('');
+												} else {
+																errorCode = data.errorMessage["code"];
+																errorMsg = data.errorMessage["message"];
+												}
+								}
+								
+								if (contentString == null) {
+												if (typeof errorCode == "undefined") {
+																errorMsg = "공공데이터 API가 응답하지 않습니다.";
+												}
+												contentString = [
+																'<div class="metroinfo">',
+																'	<span>' + errorMsg + '</span>',
+																'</div>'
+												].join('');
+								}
+								
+								markerInfo[0] = contentString;
+								markerInfo[1] = lineInfo[2];
+								markerInfo[2] = lineInfo[3];
+								
+								return markerInfo;
+				}
+				
+				
+				function metroDMCCallBack(data) {
+								var markerInfo = getMetroDMCMarkerInfo(data);
+								var infowindow = new naver.maps.InfoWindow({
+												content: markerInfo[0],
+												borderColor: markerInfo[1],
+												borderWidth: markerInfo[2]
+								});
+								infowindow.open(map, metroMarkerDMC);
+				}
+				function getMetroDMCMarkerInfo(data) {
+								var markerInfo = new Array();
+								var contentString = null;
+								var errorCode = '';
+								var errorMsg = '';
+								
+								if (typeof data.errorMessage == "undefined") {
+												errorCode = data.code;
+												errorMsg = data.message;
+								} else {
+												if (data.errorMessage["code"] == "INFO-000") {
+																// 공항철도
+																var airline = data.realtimeArrivalList.filter(function(item){    
+																				return item.subwayId === "1065";
+																});
+																var airlineInfo = getLineInfo(airline, "down");
+																
+																// 6호선
+																var sixline = data.realtimeArrivalList.filter(function(item){    
+																				return item.subwayId === "1006";
+																});
+																var sixlineInfo = getLineInfo(sixline, "down");
+																
+																// 경의중앙
+																var guline = data.realtimeArrivalList.filter(function(item){    
+																				return item.subwayId === "1063";
+																});
+																var gulineInfo = getLineInfo(guline, "down");
+																
+																contentString = [
+																				'<div class="metroinfo">',
+																				'	<span class="metrolineTitle">@ 공항철도</span><br/>',
+																				airlineInfo[1],
+																				'<br/>',
+																				airlineInfo[0],
+																				'<br/>',
+																				'<br/>',
+																				'	<span class="metrolineTitle">@ 6호선</span><br/>',
+																				sixlineInfo[1],
+																				'<br/>',
+																				sixlineInfo[0],
+																				'<br/>',
+																				'<br/>',
+																				'	<span class="metrolineTitle">@ 경의중앙</span><br/>',
+																				gulineInfo[1],
+																				'<br/>',
+																				gulineInfo[0],
+																				'</div>'
+																].join('');
+												} else {
+																errorCode = data.errorMessage["code"];
+																errorMsg = data.errorMessage["message"];
+												}
+								}
+								
+								if (contentString == null) {
+												if (typeof errorCode == "undefined") {
+																errorMsg = "공공데이터 API가 응답하지 않습니다.";
+												}
+												contentString = [
+																'<div class="metroinfo">',
+																'	<span>' + errorMsg + '</span>',
+																'</div>'
+												].join('');
+								}
+								
+								markerInfo[0] = contentString;
+								markerInfo[1] = airlineInfo[2];
+								markerInfo[2] = airlineInfo[3];
+								
+								return markerInfo;
+				}
+				
+				
+				function getMetro(statnNm, callBackName) {
+								var metro_svr = 'http://swopenapi.seoul.go.kr/api/subway';
+								var metro_key = seoul_ApiKey;
+								var metro_type = 'json';
+								var metro_service = 'realtimeStationArrival';
+								var metro_start_index = '0';
+								var metro_end_index = '10';
+								var metro_statnNm = statnNm;
+								var metro_url = metro_svr;
+												metro_url += '/' + metro_key;
+												metro_url += '/' + metro_type;
+												metro_url += '/' + metro_service;
+												metro_url += '/' + metro_start_index;
+												metro_url += '/' + metro_end_index;
+												metro_url += '/' + metro_statnNm;
+								
+								var xhr = new XMLHttpRequest();
+								xhr.open('GET', metro_url);
+								xhr.onreadystatechange = function () {
+												if (this.readyState == 4 && this.status == 200) {
+																callBackName(JSON.parse(this.responseText));
+												}
+								};
+								xhr.send('');
+				}
+				
+				
+				function getLineInfo(dataArr, hurryTarget) {
+								var lineInfo = new Array();
+								var borderColor = '#3d3d3d';
+								var borderWidth = 1;
+								
+								// 상행선 정보
+								var upLine = dataArr.filter(function(item){    
+												return item.updnLine === "상행";
+								});
+								var upLineStr = '';
+								if (upLine.length > 0) {
+												upLine.forEach( function( v, i ) {
+																if (i == 0) {
+																				// header
+																				upLineStr += '<span class="metrolineinfo">상행 [' + v.trainLineNm + ']</span><br/>'
+																				
+																				if (hurryTarget == "up") {
+																								if (v.arvlCd == "0") {
+																												// 진입 = red	
+																												borderColor = "red";
+																												borderWidth = 2;
+																								} else if (v.arvlCd == "3" || v.arvlCd == "4" || v.arvlCd == "5") {
+																												// 전역출발/전역진입/전역도착 = orange
+																												borderColor = "orange";
+																												borderWidth = 2;
+																								} else {
+																												// 나머지 = green
+																												borderColor = "green";
+																												borderWidth = 2;
+																								}
+																				}
+																}
+																
+																upLineStr += '<span>#' + (i+1) + '. [' + getArvMsgMetro(v.arvlCd) + '] ' + v.arvlMsg2 + '</span><br/>';
+														});
+								}
+								lineInfo[0] = upLineStr;
+								
+								// 하행선 정보
+								var downLine = dataArr.filter(function(item){    
+												return item.updnLine === "하행";
+								});
+								var downLineStr = '';
+								if (downLine.length > 0) {
+												downLine.forEach( function( v, i ) {
+																if (i == 0) {
+																				// header
+																				downLineStr += '<span class="metrolineinfo">하행 [' + v.trainLineNm + ']</span><br/>'
+																				
+																				// hurry up
+																				if (hurryTarget == "down") {
+																								if (v.arvlCd == "0") {
+																												// 진입 = red
+																												borderColor = "red";
+																												borderWidth = 2;
+																								} else if (v.arvlCd == "3" || v.arvlCd == "4" || v.arvlCd == "5") {
+																												// 전역출발/전역진입/전역도착 = orange
+																												borderColor = "orange";
+																												borderWidth = 2;
+																								} else {
+																												// 나머지 = green
+																												borderColor = "green";
+																												borderWidth = 2;
+																								}
+																				}
+																}
+																
+																downLineStr += '<span>#' + (i+1) + '. [' + getArvMsgMetro(v.arvlCd) + '] ' + v.arvlMsg2 + '</span><br/>';
+														});
+								}
+								lineInfo[1] = downLineStr;
+								lineInfo[2] = borderColor;
+								lineInfo[3] = borderWidth;
+								
+								return lineInfo;
+				}
+				function getArvMsgMetro(arvlCd) {
+								//0:진입, 1:도착, 2:출발, 3:전역출발, 4:전역진입, 5:전역도착, 99:운행중
+								var arvMsg = '';
+								switch (arvlCd) {
+												case '0':
+																arvMsg = "진입";
+																break;
+												case '1':
+																arvMsg = "도착";
+																break;
+												case '2':
+																arvMsg = "출발";
+																break;
+												case '3':
+																arvMsg = "전역출발";
+																break;
+												case '4':
+																arvMsg = "전역진입";
+																break;
+												case '5':
+																arvMsg = "전역도착";
+																break;
+												default:
+																arvMsg = "운행중";
+								}
+								return arvMsg;
+				}
+    // 지하철 도착정보 end
+				
+				// XML to JSON
+				function xmlToJson(xml) {
+								// Create the return object
+								var obj = {};
+							
+								if (xml.nodeType == 1) { // element
+									// do attributes
+									if (xml.attributes.length > 0) {
+									obj["@attributes"] = {};
+										for (var j = 0; j < xml.attributes.length; j++) {
+											var attribute = xml.attributes.item(j);
+											obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
+										}
+									}
+								} else if (xml.nodeType == 3) { // text
+									obj = xml.nodeValue;
+								}
+							
+								// do children
+								// If just one text node inside
+								if (xml.hasChildNodes() && xml.childNodes.length === 1 && xml.childNodes[0].nodeType === 3) {
+									obj = xml.childNodes[0].nodeValue;
+								}
+								else if (xml.hasChildNodes()) {
+									for(var i = 0; i < xml.childNodes.length; i++) {
+										var item = xml.childNodes.item(i);
+										var nodeName = item.nodeName;
+										if (typeof(obj[nodeName]) == "undefined") {
+											obj[nodeName] = xmlToJson(item);
+										} else {
+											if (typeof(obj[nodeName].push) == "undefined") {
+												var old = obj[nodeName];
+												obj[nodeName] = [];
+												obj[nodeName].push(old);
+											}
+											obj[nodeName].push(xmlToJson(item));
+										}
+									}
+								}
+								return obj;
+							}
+
+				//getMetro('원흥', metroWHCallBack);
+				getBus('gg', ['218000691', '218000693'], busWHCallBack);
+</script>
+</body>
+</html>
